@@ -1,5 +1,6 @@
 "use client";
 import FieldPurpose from "@/app/components/admin/extra/FieldPurpose";
+import ImproveContentButton from "@/app/components/admin/extra/ImproveContentButton";
 import { returnFormFields } from "@/app/utils/db/create_fields_fun";
 import { evaluateFieldDependency } from "@/app/admin/setting/pages-conf/utils/fieldDependencyUtils";
 import AddIcon from "@mui/icons-material/Add";
@@ -44,7 +45,10 @@ export const DynamicZoneRenderer = ({
     deleteMultImage,
     isEdit,
     parentPath = "",
-    fieldErrors = {}
+    fieldErrors = {},
+    locale = "en",
+    moduleSlug = "",
+    recordId = "",
 }) => {
     const fieldKey = field.field?.value || field.field;
     const items = Array.isArray(formData[fieldKey]) ? formData[fieldKey] : [];
@@ -436,6 +440,9 @@ export const DynamicZoneRenderer = ({
                                                             isEdit={isEdit}
                                                             parentPath={`${parentPath ? parentPath + '.' : ''}${fieldKey}#${index}`}
                                                             fieldErrors={fieldErrors}
+                                                            locale={locale}
+                                                            moduleSlug={moduleSlug}
+                                                            recordId={recordId}
                                                         />
                                                     </div>
                                                 );
@@ -500,6 +507,21 @@ export const DynamicZoneRenderer = ({
                                                         </label>
                                                         <FieldPurpose Purpose={subField?.FieldPurpose} />
                                                         {Lable_Component}
+                                                        {["text", "rich-text-blocks", "rich-text-markdown"].includes(subField.type) && (
+                                                            <ImproveContentButton
+                                                                value={item[subFieldKey]}
+                                                                fieldType={subField.type}
+                                                                locale={locale}
+                                                                fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldKey, index, subFieldKey].filter(v => v !== "" && v !== null && v !== undefined).join(".")}
+                                                                onApply={(newValue) => {
+                                                                    if (subField.type === "rich-text-markdown") {
+                                                                        handleFieldChange(newValue, subFieldKey, "text-editor", index);
+                                                                    } else {
+                                                                        handleFieldChange({ target: { name: subFieldKey, value: newValue } }, subFieldKey, null, index);
+                                                                    }
+                                                                }}
+                                                            />
+                                                        )}
                                                     </div>
                                                     {Component_Type}
                                                     {fieldError && (

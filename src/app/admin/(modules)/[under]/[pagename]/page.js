@@ -75,7 +75,7 @@ const Common_defult_page_conf = async ({ params, searchParams }) => {
                 updatedAt={plainData?.updatedAt}
                 detailPage={detailPage}
                 getUrl={get_url}
-                formProps={{ DEFAULT_OBJECT, Page_Fields, objectField, putUrl, postURL: "", isEdit: true, redirectUrl }}
+                formProps={{ DEFAULT_OBJECT, Page_Fields, objectField, putUrl, postURL: "", isEdit: true, redirectUrl, moduleSlug: pageName }}
                 FormComponent={Page_client}
             />
         </>

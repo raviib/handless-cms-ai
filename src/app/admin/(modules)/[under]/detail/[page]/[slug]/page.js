@@ -80,7 +80,7 @@ const Common_defult_page_conf = async ({ params, searchParams }) => {
                 detailPage={detailPage}
                 getUrl={`${get_url}/${slug}`}
                 FormComponent={Page_client}
-                formProps={{ DEFAULT_OBJECT, Page_Fields, objectField, putUrl, postURL: "", isEdit: true, redirectUrl }}
+                formProps={{ DEFAULT_OBJECT, Page_Fields, objectField, putUrl, postURL: "", isEdit: true, redirectUrl, moduleSlug: page }}
             />
         </>
     )

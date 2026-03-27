@@ -26,6 +26,7 @@ import "@/app/(backend)/models/leads/enquire-now/enquire-now.modal.js";
 import "@/app/(backend)/models/setting/page-component/page-component.modal.js";
 import "@/app/(backend)/models/setting/pages-conf/pages-conf.modal.js";
 import "@/app/(backend)/models/shop/brand-catalogue/brand-catalogue.modal.js";
+import "@/app/(backend)/models/ai/ai-content-history.modal.js";
 import "@/app/(backend)/models/shop/brands/brands.modal.js";
 import "@/app/(backend)/models/shop/category/category.modal.js";
 import "@/app/(backend)/models/shop/products/products.modal.js";

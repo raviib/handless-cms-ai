@@ -1,11 +1,14 @@
 "use client";
 import { AdminCommonHeading } from "@/app/components/admin/common.jsx";
 import FieldPurpose from "@/app/components/admin/extra/FieldPurpose.jsx";
+import ImproveContentButton from "@/app/components/admin/extra/ImproveContentButton.jsx";
 import { NestedComponentRenderer } from "@/app/components/admin/extra/RepeatableTabs";
 import { DynamicZoneRenderer } from "@/app/components/admin/extra/DynamicZoneRenderer";
 import { returnFormFields } from "@/app/utils/db/create_fields_fun";
 import { useState, useMemo } from "react";
 import { evaluateFieldDependency } from "@/app/admin/setting/pages-conf/utils/fieldDependencyUtils";
+
+const IMPROVABLE_TYPES = ["text", "rich-text-blocks", "rich-text-markdown"];
 
 const Page_client_section = ({
     ele,
@@ -17,7 +20,10 @@ const Page_client_section = ({
     onChangeFormDataHandler,
     isEdit,
     index,
-    fieldErrors = {}
+    fieldErrors = {},
+    locale = "en",
+    moduleSlug = "",
+    recordId = "",
 }) => {
 
     const [isopen, setIsOpen] = useState(index === 0);
@@ -73,6 +79,9 @@ const Page_client_section = ({
                                     deleteMultImage={deleteMultImage}
                                     isEdit={isEdit}
                                     fieldErrors={fieldErrors}
+                                    locale={locale}
+                                    moduleSlug={moduleSlug}
+                                    recordId={recordId}
                                 />
                             </div>
                         );
@@ -92,6 +101,9 @@ const Page_client_section = ({
                                     deleteMultImage={deleteMultImage}
                                     isEdit={isEdit}
                                     fieldErrors={fieldErrors}
+                                    locale={locale}
+                                    moduleSlug={moduleSlug}
+                                    recordId={recordId}
                                 />
                             </div>
                         );
@@ -133,6 +145,21 @@ const Page_client_section = ({
 
                                 <FieldPurpose Purpose={field?.FieldPurpose} />
                                 {Lable_Component}
+                                {IMPROVABLE_TYPES.includes(field.type) && (
+                                    <ImproveContentButton
+                                        value={formData[fieldName]}
+                                        fieldType={field.type}
+                                        locale={locale}
+                                        fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldName].filter(Boolean).join(".")}
+                                        onApply={(newValue) => {
+                                            if (field.type === "rich-text-markdown") {
+                                                onChangeFormDataHandler(newValue, fieldName, "rich-text-markdown");
+                                            } else {
+                                                onChangeFormDataHandler({ target: { name: fieldName, value: newValue } });
+                                            }
+                                        }}
+                                    />
+                                )}
                             </div>
 
                             {Component_Type}

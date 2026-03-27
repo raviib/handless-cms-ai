@@ -76,7 +76,7 @@ const Common_defult_page_conf = async ({ params, searchParams }) => {
                 updatedAt={plainData?.updatedAt}
                 detailPage={detailPage}
                 FormComponent={Page_client}
-                formProps={{ searchParams: awaitedSearchParams, DEFAULT_OBJECT, Page_Fields, objectField, putUrl: "", postURL: post_url, isEdit: false, redirectUrl }}
+                formProps={{ searchParams: awaitedSearchParams, DEFAULT_OBJECT, Page_Fields, objectField, putUrl: "", postURL: post_url, isEdit: false, redirectUrl, moduleSlug: page }}
             />
         </>
     )

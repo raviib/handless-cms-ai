@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import Page_client_section from "./admin_section_form";
 
-const Page_client = ({ DEFAULT_OBJECT, Page_Fields, objectField, postURL, putUrl, isEdit, redirectUrl, isView = false, searchParams = {}, locale = "en", localeData = null, localeLoading = false, isFallback = false, onSeoChange = null, onRegisterApplyTranslation = null }) => {
+const Page_client = ({ DEFAULT_OBJECT, Page_Fields, objectField, postURL, putUrl, isEdit, redirectUrl, isView = false, searchParams = {}, locale = "en", localeData = null, localeLoading = false, isFallback = false, onSeoChange = null, onRegisterApplyTranslation = null, moduleSlug = "" }) => {
     const router = useRouter();
     const { duplicate = null } = searchParams;
     const [formData, setFormData] = useState(DEFAULT_OBJECT);
@@ -718,6 +718,9 @@ const Page_client = ({ DEFAULT_OBJECT, Page_Fields, objectField, postURL, putUrl
                                 onChangeFormDataHandler={onChangeFormDataHandler}
                                 index={index}
                                 fieldErrors={fieldErrors}
+                                locale={locale}
+                                moduleSlug={moduleSlug}
+                                recordId={formData?._id || ""}
                             />
                         )
                     })
