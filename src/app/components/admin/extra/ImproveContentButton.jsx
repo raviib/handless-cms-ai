@@ -55,6 +55,7 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
 
     const promptRef = useRef(null);
     const hasContent = value && String(value).trim().length > 0;
+    const isEmpty = !hasContent;
     const open = Boolean(anchorEl);
 
     // ── Fetch AI suggestions ──────────────────────────────────────────────────
@@ -92,6 +93,42 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
         }
     };
 
+    // ── Generate from scratch (empty field) ──────────────────────────────────
+    const fetchSuggestionsFromScratch = async (userPrompt) => {
+        setLoading(true);
+        setError(null);
+        setSuggestions([]);
+        setSelectedIndex(null);
+
+        try {
+            const token = await generateApiAccessToken();
+            const { data } = await axiosInstance.post(
+                "/content/improve",
+                {
+                    text: userPrompt,          // use the prompt as the source
+                    fieldType,
+                    locale,
+                    prompt: "",                // no extra instruction needed
+                    fieldId,
+                    generateFromScratch: true, // hint for the API
+                },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            if (data.success && Array.isArray(data.suggestions)) {
+                setSuggestions(data.suggestions);
+                // Load history now that we have results
+                if (fieldId) fetchHistory();
+            } else {
+                setError(data.message || "Failed to generate content");
+            }
+        } catch (err) {
+            setError(err?.response?.data?.message || "Failed to generate content");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // ── Fetch history from DB ─────────────────────────────────────────────────
     const fetchHistory = async () => {
         if (!fieldId) return;
@@ -118,14 +155,21 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
     // ── Handlers ──────────────────────────────────────────────────────────────
     const handleOpen = (e) => {
         e.stopPropagation();
-        if (!hasContent) return;
-        setOriginalValue(value);
+        setOriginalValue(value || "");
         setSelectedIndex(null);
         setTab(0);
         setAnchorEl(e.currentTarget);
-        fetchSuggestions("");
-        // Pre-load history in background
-        if (fieldId && historyRuns === null) fetchHistory();
+
+        if (isEmpty) {
+            // Empty field — don't auto-generate, wait for user prompt
+            setPrompt("");
+            setSuggestions([]);
+            setError(null);
+        } else {
+            setPrompt("Regenerate this content");
+            fetchSuggestions("");
+            if (fieldId && historyRuns === null) fetchHistory();
+        }
     };
 
     const handleClose = () => {
@@ -140,11 +184,17 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
     };
 
     const handlePromptSubmit = () => {
-        if (!hasContent) return;
+        if (!prompt.trim()) return;
         setSelectedIndex(null);
-        const key = cacheKey(value, fieldType, locale, prompt);
-        suggestionCache.delete(key);
-        fetchSuggestions(prompt);
+
+        if (isEmpty) {
+            // Generate from scratch — use the prompt as the source text
+            fetchSuggestionsFromScratch(prompt);
+        } else {
+            const key = cacheKey(value, fieldType, locale, prompt);
+            suggestionCache.delete(key);
+            fetchSuggestions(prompt);
+        }
         setTab(0);
     };
 
@@ -162,15 +212,13 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
     // ── Render ────────────────────────────────────────────────────────────────
     return (
         <>
-            <Tooltip title={hasContent ? "Improve content with AI" : "Add content first"} placement="top">
+            <Tooltip title={isEmpty ? "Generate content with AI" : "Improve content with AI"} placement="top">
                 <span>
                     <IconButton
                         size="small"
                         onClick={handleOpen}
-                        disabled={!hasContent}
                         sx={{
                             color: "#7c3aed",
-                            opacity: hasContent ? 1 : 0.35,
                             p: "2px",
                             "&:hover": { backgroundColor: "rgba(124,58,237,0.08)" },
                         }}
@@ -249,7 +297,10 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
                         inputRef={promptRef}
                         size="small"
                         fullWidth
-                        placeholder='e.g. "make it more formal", "shorter", "add a CTA"…'
+                        placeholder={isEmpty
+                            ? "Describe what you want to generate…"
+                            : 'e.g. "make it more formal", "shorter", "add a CTA"…'
+                        }
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         onKeyDown={(e) => {
@@ -264,12 +315,12 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
                         }}
                         endAdornment={
                             <InputAdornment position="end">
-                                <Tooltip title="Generate with this prompt">
+                                <Tooltip title={isEmpty ? "Generate content" : "Generate with this prompt"}>
                                     <span>
                                         <IconButton
                                             size="small"
                                             onClick={handlePromptSubmit}
-                                            disabled={loading}
+                                            disabled={loading || !prompt.trim()}
                                             sx={{ color: "#7c3aed", p: "4px" }}
                                         >
                                             {loading
@@ -284,70 +335,88 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
                     />
                 </Box>
 
-                {/* ── Tabs ── */}
-                <Tabs
-                    value={tab}
-                    onChange={handleTabChange}
-                    sx={{
-                        flexShrink: 0,
-                        minHeight: 36,
-                        borderBottom: "1px solid #f3e8ff",
-                        "& .MuiTab-root": { minHeight: 36, fontSize: 12, textTransform: "none", py: 0 },
-                        "& .Mui-selected": { color: "#7c3aed" },
-                        "& .MuiTabs-indicator": { backgroundColor: "#7c3aed" },
-                    }}
-                >
-                    <Tab label="Suggestions" />
-                    <Tab
-                        label="History"
-                        icon={<HistoryIcon sx={{ fontSize: 14 }} />}
-                        iconPosition="start"
-                        disabled={!fieldId}
-                    />
-                </Tabs>
+                {/* ── Tabs (only shown when field has content) ── */}
+                {!isEmpty && (
+                    <Tabs
+                        value={tab}
+                        onChange={handleTabChange}
+                        sx={{
+                            flexShrink: 0,
+                            minHeight: 36,
+                            borderBottom: "1px solid #f3e8ff",
+                            "& .MuiTab-root": { minHeight: 36, fontSize: 12, textTransform: "none", py: 0 },
+                            "& .Mui-selected": { color: "#7c3aed" },
+                            "& .MuiTabs-indicator": { backgroundColor: "#7c3aed" },
+                        }}
+                    >
+                        <Tab label="Suggestions" />
+                        <Tab
+                            label="History"
+                            icon={<HistoryIcon sx={{ fontSize: 14 }} />}
+                            iconPosition="start"
+                            disabled={!fieldId}
+                        />
+                    </Tabs>
+                )}
 
                 {/* ── Body ── */}
                 <Box sx={{ p: 2, overflowY: "auto", flex: 1 }}>
 
-                    {/* ── SUGGESTIONS TAB ── */}
-                    {tab === 0 && (
+                    {/* ── EMPTY FIELD STATE ── */}
+                    {isEmpty && suggestions.length === 0 && !loading && !error && (
+                        <Box sx={{ textAlign: "center", py: 3 }}>
+                            <AutoFixHighIcon sx={{ fontSize: 40, color: "#c4b5fd", mb: 1.5 }} />
+                            <Typography variant="body2" sx={{ color: "#555", fontWeight: 600, mb: 0.5 }}>
+                                This field is empty
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: "#999", display: "block", mb: 2 }}>
+                                Describe what you want to generate above and press ↵ or the send button.
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: "#bbb", fontStyle: "italic" }}>
+                                e.g. "A short tagline about sustainable laminates" or "Hero subtitle for a flooring brand"
+                            </Typography>
+                        </Box>
+                    )}
+
+                    {loading && <LoadingRow label={isEmpty ? "Generating content…" : "Generating suggestions…"} />}
+
+                    {error && !loading && (
+                        <Typography variant="body2" sx={{ color: "#d32f2f", py: 1 }}>{error}</Typography>
+                    )}
+
+                    {/* ── SUGGESTIONS TAB (or generated results for empty field) ── */}
+                    {(isEmpty || tab === 0) && !loading && !error && suggestions.length > 0 && (
                         <>
-                            {/* Current value */}
-                            {originalValue && (
+                            {/* Current value — only shown when field had content */}
+                            {!isEmpty && originalValue && (
                                 <Box sx={{ mb: 2 }}>
                                     <SectionLabel>Current</SectionLabel>
-                                    <ContentCard fieldType={fieldType} sx={{ backgroundColor: "#f9fafb", borderColor: "#e5e7eb" }}>
+                                    <ContentCard sx={{ backgroundColor: "#f9fafb", borderColor: "#e5e7eb" }}>
                                         <ContentPreview value={originalValue} fieldType={fieldType} color="#555" />
                                     </ContentCard>
                                 </Box>
                             )}
 
-                            {loading && <LoadingRow label="Generating suggestions…" />}
-
-                            {error && !loading && (
-                                <Typography variant="body2" sx={{ color: "#d32f2f", py: 1 }}>{error}</Typography>
-                            )}
-
-                            {!loading && !error && suggestions.length > 0 && (
-                                <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-                                    <SectionLabel>Suggestions — click one to select</SectionLabel>
-                                    {suggestions.map((suggestion, idx) => (
-                                        <SuggestionCard
-                                            key={idx}
-                                            index={idx}
-                                            suggestion={suggestion}
-                                            fieldType={fieldType}
-                                            selected={selectedIndex === idx}
-                                            onSelect={() => setSelectedIndex(idx)}
-                                        />
-                                    ))}
-                                </Box>
-                            )}
+                            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+                                <SectionLabel>
+                                    {isEmpty ? "Generated options — click one to select" : "Suggestions — click one to select"}
+                                </SectionLabel>
+                                {suggestions.map((suggestion, idx) => (
+                                    <SuggestionCard
+                                        key={idx}
+                                        index={idx}
+                                        suggestion={suggestion}
+                                        fieldType={fieldType}
+                                        selected={selectedIndex === idx}
+                                        onSelect={() => setSelectedIndex(idx)}
+                                    />
+                                ))}
+                            </Box>
                         </>
                     )}
 
                     {/* ── HISTORY TAB ── */}
-                    {tab === 1 && (
+                    {!isEmpty && tab === 1 && (
                         <>
                             {historyLoading && <LoadingRow label="Loading history…" />}
 

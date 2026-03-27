@@ -25,7 +25,7 @@ function cleanSuggestions(text) {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { text, fieldType = "text", locale = "en", prompt = "", fieldId = "" } = body;
+        const { text, fieldType = "text", locale = "en", prompt = "", fieldId = "", generateFromScratch = false } = body;
 
         if (!text || typeof text !== "string" || !text.trim()) {
             return NextResponse.json(
@@ -58,7 +58,17 @@ export async function POST(request) {
             ? `USER INSTRUCTION: "${prompt.trim()}" — apply this to all 3 variations.`
             : "";
 
-        const systemPrompt = `You are a professional content editor. Your job is to improve CMS field content by making it clearer, more engaging, and more professional.
+        const systemPrompt = generateFromScratch
+            ? `You are a professional CMS content writer. The user wants to generate new content from scratch based on their description.
+
+${localeInstruction}
+${isHtml ? "Return HTML-formatted content." : "Return plain text content."}
+
+Rules:
+- Generate exactly 3 different versions based on the user's description
+- Each version should vary in tone, length, or style
+- Return ONLY a raw JSON array of 3 strings. No markdown. No explanation.`
+            : `You are a professional content editor. Your job is to improve CMS field content by making it clearer, more engaging, and more professional.
 
 ${formatInstruction}
 ${localeInstruction}
@@ -71,7 +81,11 @@ Rules:
 - Do NOT add new facts or information not present in the original
 - Return ONLY a raw JSON array of 3 strings. No markdown. No explanation.`;
 
-        const userPrompt = `Improve this content and return exactly 3 variations as a JSON array:
+        const userPrompt = generateFromScratch
+            ? `Generate 3 content variations for: "${text.slice(0, 1000)}"
+
+Return ONLY: ["variation1", "variation2", "variation3"]`
+            : `Improve this content and return exactly 3 variations as a JSON array:
 
 "${text.slice(0, 2000)}"
 
