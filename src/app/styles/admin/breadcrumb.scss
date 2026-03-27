@@ -1,0 +1,98 @@
+.breadcrumb {
+    padding: 0;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 5;
+    background: rgba(0,0,0,0.9) ;
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: 15px;
+        margin: 0px !important;
+        padding: 15px 10px;
+
+        a {
+            text-decoration: none;
+        }
+    }
+
+    li {
+        color: rgba(255,255,255, 0.8);
+        text-transform: capitalize;
+        font-size: 16px;
+        font-weight: 500;
+        position: relative;
+        display: inline-block;
+        min-width: max-content;
+        padding-right: 20px;
+
+        &::after {
+            content: "";
+            width: 5px;
+            height: 5px;
+            position: absolute;
+            right: 2px;
+            top: -1px;
+            opacity: 1;
+            border-top: 2px solid var(--white-color);
+            border-left: 2px solid var(--white-color);
+            transform: rotate(135deg);
+            transition: all linear 0.2s;
+            bottom: 0;
+            margin: auto;
+        }
+
+        &:last-child {
+            padding-right: 0;
+            &::after {
+                display: none;
+            }
+        }
+        a {
+            color: var(--white-color);
+            font-size: 16px;
+
+        }
+    }
+
+    &.light-bg {
+        padding-top: 30px;
+        padding-bottom: 30px;
+
+        li {
+            color: var(--light-grey-color);
+
+            &::after {
+                color: var(--primary-color);
+            }
+
+            a {
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    &.white-bg {
+        padding-bottom: 0px;
+        padding-top: 50px;
+
+        li {
+            color: var(--darkgrey-color);
+
+            &::after {
+                color: var(--primary-color);
+            }
+
+            a {
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    &.forMobile {
+        display: none;
+    }
+}

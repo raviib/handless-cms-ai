@@ -1,0 +1,56 @@
+.multi-image-Dialog-Box {
+    padding: 1rem;
+    min-width: 500px;
+
+    .heading {
+        border-bottom: 1px solid #80808087 !important;
+
+        h1 {
+            margin: 0;
+            padding: 5px 0px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+    }
+
+    .contant {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 10px 0px;
+
+        .items {
+            border: 1px solid rgba(160, 159, 159, 0.685);
+            // cursor: pointer;
+            position: relative;
+
+            .items-image-checkbox {
+                position: absolute;
+
+                span {
+                    padding: 0px !important;
+                }
+            }
+            .media-video{
+                position: relative;
+                &::before {
+                    content: '';
+                    width: 24px;
+                    height: 24px;
+                    background: url("/images/play-icon.webp") no-repeat;
+                    position: absolute;
+                    left: 35%;
+                    top: 40%;
+                }
+
+            }
+        }
+    }
+
+    .actions {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+    }
+}

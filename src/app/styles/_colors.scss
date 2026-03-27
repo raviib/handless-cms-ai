@@ -1,0 +1,191 @@
+// ============================================
+// GLOBAL COLOR VARIABLES
+// ============================================
+// This file contains all color variables used across the application
+// Generated from existing CSS/SCSS files for centralized color management
+
+// ============================================
+// PRIMARY COLORS
+// ============================================
+$primary-blue: rgba(0,0,0,0.7);           // Main brand color -
+$primary-blue-light: #2563eb;     // Light variant
+$primary-blue-dark: #163567;      // Dark variant
+$primary-blue-hover: #1e4fd8;     // Hover state
+
+// ============================================
+// SECONDARY COLORS
+// ============================================
+$secondary-green: rgba(0,0,0,0.9);      // Success/action color -
+$secondary-green-light: #eafbe7;  // Light green background
+$secondary-green-dark: #328048;   // Dark green text
+
+// ============================================
+// NEUTRAL COLORS - GRAYSCALE
+// ============================================
+// White shades
+$white: #ffffff;                  // Pure white 
+$white-short: #fff;               // Short white -
+$white-rgb: rgb(255 255 255);     // RGB white
+
+// Black shades
+$black: #000000;                  // Pure black 
+$black-short: #000;               // Short black 
+$black-rgb: rgb(0 0 0);           // RGB black
+
+// Gray shades (light to dark)
+$gray-50: #fafafa;                // Lightest gray
+$gray-100: #f7f7f7;               // Very light gray
+$gray-200: #eaeaea;               // Light gray
+$gray-300: #e6e6e6;               // Border gray
+$gray-400: #ddd;                  // Medium-light gray - used 15 times
+$gray-500: #ccc;                  // Medium gray - used 8 times
+$gray-600: #808386;               // Medium-dark gray - used 4 times
+$gray-700: #6b6b6b;               // Dark gray
+$gray-800: #757575;               // Darker gray
+$gray-900: #333;                  // Very dark gray - used 14 times
+
+// Specific gray tones
+$gray-border: #dee2e6;            // Bootstrap border - used 9 times
+$gray-text: #6c757d;              // Bootstrap text - used 5 times
+$gray-bg: #80808014;              // Light background
+$gray-bg-alt: #d6d3d347;          // Alternative background
+
+// ============================================
+// SEMANTIC COLORS
+// ============================================
+// Success
+$success: rgba(0,0,0,0.9);
+$success-light: #eafbe7;
+$success-dark: #328048;
+
+// Error/Danger
+$error: #d42424;
+$error-light: #fee7e5;
+$danger: red;
+$danger-alt: #d02b20;
+
+// Warning
+$warning: rgb(255 143 0);
+$warning-alt: rgb(221, 201, 23);
+
+// Info
+$info: rgba(0,0,0,0.7);                   // Used 10 times
+$info-light: #86b7fe;             // Used 4 times
+$info-focus: rgb(49, 130, 206);   // Focus state - used 4 times
+
+// ============================================
+// TEXT COLORS
+// ============================================
+$text-primary: #212529;           // Main text - used 6 times
+$text-secondary: #6c757d;         // Secondary text
+$text-muted: #777777;             // Muted text
+$text-light: rgb(99, 98, 98);     // Light text
+$text-gray: rgb(107 114 128);     // Tailwind gray
+
+// ============================================
+// BACKGROUND COLORS
+// ============================================
+$bg-white: #ffffff;
+$bg-light: #f7f7f7;
+$bg-gray: #80808014;
+$bg-panel: rgb(255 255 255);      // Panel background
+
+// ============================================
+// BORDER COLORS
+// ============================================
+$border-light: #e6e6e6;
+$border-default: #ddd;
+$border-medium: #ccc;
+$border-dark: #dee2e6;
+$border-gainsboro: gainsboro;
+
+// ============================================
+// SHADOW COLORS
+// ============================================
+$shadow-sm: rgba(0, 0, 0, 0.05);
+$shadow-md: rgba(0, 0, 0, 0.1);
+$shadow-lg: rgba(0, 0, 0, 0.2);
+$shadow-primary: rgba(29, 68, 129, 0.3);
+
+// ============================================
+// TRANSPARENT COLORS
+// ============================================
+$transparent: transparent;
+$transparent-black: #0000;        // Used 10 times
+$transparent-white: rgba(255, 255, 255, 0);
+
+// ============================================
+// GRADIENT COLORS
+// ============================================
+$gradient-primary: linear-gradient(135deg, rgba(0,0,0,0.7), #2563eb);
+$gradient-primary-hover: linear-gradient(135deg, #163567, #1e4fd8);
+$gradient-purple: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$gradient-pink: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+$gradient-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+$gradient-green: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+
+// ============================================
+// SPECIAL USE COLORS
+// ============================================
+$link-color: #d42424;
+$link-hover: rgba(0,0,0,0.7);
+$focus-ring: rgb(49, 130, 206);
+$placeholder-color: #808386;
+
+// ============================================
+// TAILWIND COMPATIBILITY
+// ============================================
+$tw-red-500: rgb(239 68 68);
+$tw-gray-500: rgb(107 114 128);
+$tw-blue-600: rgb(49, 130, 206);
+
+// ============================================
+// LEGACY/DEPRECATED (Keep for backward compatibility)
+// ============================================
+// These colors are still in use but should be migrated to semantic names
+$color-1d4481: rgba(0,0,0,0.7);           // Use $primary-blue instead
+$color-0a7a37: rgba(0,0,0,0.9);         // Use $secondary-green instead
+$color-212529: #212529;           // Use $text-primary instead
+$color-dee2e6: #dee2e6;           // Use $border-dark instead
+
+// ============================================
+// COLOR MAPS (for programmatic access)
+// ============================================
+$colors: (
+  "primary": $primary-blue,
+  "secondary": $secondary-green,
+  "success": $success,
+  "danger": $danger,
+  "warning": $warning,
+  "info": $info,
+  "light": $gray-100,
+  "dark": $gray-900,
+  "white": $white,
+  "black": $black
+);
+
+$grays: (
+  "50": $gray-50,
+  "100": $gray-100,
+  "200": $gray-200,
+  "300": $gray-300,
+  "400": $gray-400,
+  "500": $gray-500,
+  "600": $gray-600,
+  "700": $gray-700,
+  "800": $gray-800,
+  "900": $gray-900
+);
+
+// ============================================
+// USAGE EXAMPLES
+// ============================================
+// Import this file in your SCSS files:
+// @import './colors';
+//
+// Then use variables like:
+// .my-class {
+//   color: $primary-blue;
+//   background-color: $bg-light;
+//   border: 1px solid $border-default;
+// }

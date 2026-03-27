@@ -1,0 +1,11 @@
+// Export all field configuration components
+export { FieldTypeSelectionModal } from './FieldTypeSelectionModal.jsx';
+export { FieldConfigurationModal } from './FieldConfigurationModal.jsx';
+export { BasicSettingsTab } from './BasicSettingsTab.jsx';
+export { AdvancedSettingsTab } from './AdvancedSettingsTab.jsx';
+export { RelationFieldsConfig } from './RelationFieldsConfig.jsx';
+export { FieldDetailsDialog } from './FieldDetailsDialog.jsx';
+export { FieldFormInputs } from './FieldFormInputs.jsx';
+export { FieldsTable } from './FieldsTable.jsx';
+export { FieldTableRow } from './FieldTableRow.jsx';
+export { SectionHeader } from './SectionHeader.jsx';

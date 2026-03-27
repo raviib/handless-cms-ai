@@ -1,0 +1,36 @@
+.UrlData {
+    opacity: 1;
+    position: relative;
+}
+
+
+.UrlData:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 100px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    object-fit: cover;
+    object-position: center;
+    background-repeat: no-repeat;
+    width: 100px;
+    background-color: #fff;
+    background-image: url("/images/admin/no-file-ableble.png");
+    /* background-image: url(https://placehold.co/150x150/png); */
+    background-position: center center;
+    background-size: 100%;
+}
+
+small {
+    --tw-text-opacity: 1;
+    color: rgb(107 114 128 / var(--tw-text-opacity));
+    margin: .2rem;
+}
+
+.text-red-500 {
+    --tw-text-opacity: 1;
+    color: rgb(239 68 68 / var(--tw-text-opacity));
+}

@@ -1,0 +1,242 @@
+:focus {
+    outline: none;
+}
+
+body {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.9) ;
+}
+
+.login-inner-wrapper {
+    position: relative;
+    width: 420px;
+    max-width: 92%;
+    padding: 20px;
+    background: #ffffff;
+    z-index: 9;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    -ms-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    -o-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.image-1 {
+    position: absolute;
+    bottom: -12px;
+    left: -191px;
+    z-index: 99;
+}
+
+.image-2 {
+    position: absolute;
+    bottom: 0;
+    right: -115px;
+}
+
+.login-form {
+    width: 100%;
+    position: relative;
+    z-index: 9;
+
+}
+
+.input-icon {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e6e6e6;
+    color: #797878;
+}
+
+.login-error {
+    margin-top: 5px;
+    padding-left: 10px;
+    color: red;
+    font-size: smaller;
+}
+
+.login-form-heading {
+    text-transform: uppercase;
+    font-size: 25px;
+    font-family: "Muli-SemiBold";
+    color: #333;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 33px;
+}
+
+.login-form-logo {
+    text-align: center;
+    padding: 15px;
+    background: #000000;
+    margin-bottom: 16px;
+    img {
+        width: auto;
+    }
+}
+
+.login-form-holder {
+    position: relative;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+}
+
+.login-form-holder span {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: #333;
+}
+
+.login-form-holder span.lnr-lock {
+    left: 2px;
+}
+
+.login-form-control {
+    border: none;
+  
+    display: block;
+    width: 100%;
+    height: 38px;
+    background: none;
+    padding: 0px 10px;
+    color: #666;
+    font-family: "Muli-SemiBold";
+    font-size: 16px;
+}
+
+.login-form-control::-webkit-input-placeholder {
+    font-size: 16px;
+    font-family: "Muli-Regular";
+    color: #999;
+    transform: translateY(1px);
+}
+
+.login-form-control::-moz-placeholder {
+    font-size: 16px;
+    font-family: "Muli-Regular";
+    color: #999;
+    transform: translateY(1px);
+}
+
+.login-form-control:-ms-input-placeholder {
+    font-size: 16px;
+    font-family: "Muli-Regular";
+    color: #999;
+    transform: translateY(1px);
+}
+
+.login-form-control:-moz-placeholder {
+    font-size: 16px;
+    font-family: "Muli-Regular";
+    color: #999;
+    transform: translateY(1px);
+}
+
+.input-icon:focus-within {
+    border-bottom: 1px solid #accffe;
+  
+}
+
+.login-button {
+    border: none;
+    width: 100%;
+    height: 49px;
+    margin-top: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: rgba(0,0,0,0.9);
+    color: #fff;
+    text-transform: uppercase;
+    font-family: "Muli-SemiBold";
+    font-size: 15px;
+    letter-spacing: 2px;
+    transition: all 0.5s;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-button span {
+    position: relative;
+    z-index: 2;
+}
+
+.login-button:before,
+.login-button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgb(17 67 27 / 18%);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
+    -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+    transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+}
+
+.login-button:after {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+}
+
+.login-button:hover:before,
+.login-button:hover:after {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
+@media (max-width: 991px) {
+    .login-inner-wrapper {
+        width: 300px;
+        left: 4%;
+    }
+}
+
+@media (max-width: 767px) {
+    .login-inner-wrapper {
+        width: 100%;
+        left: 0;
+    }
+
+    .image-1,
+    .image-2 {
+        display: none;
+    }
+
+    .login-form {
+        /* padding: 35px; */
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -ms-box-shadow: none;
+        -o-box-shadow: none;
+    }
+
+    .login-wrapper {
+        background: none;
+    }
+}
+

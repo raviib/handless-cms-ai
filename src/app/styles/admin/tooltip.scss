@@ -1,0 +1,175 @@
+@import '../../styles/_colors';
+
+/* Base */
+[tooltip] {
+  position: relative;
+}
+
+/* Shared pseudo styles */
+[tooltip]::before,
+[tooltip]::after {
+  position: absolute;
+  display: none;
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+  font-size: 0.85rem;
+  line-height: 1;
+  text-transform: none;
+}
+
+/* Arrow */
+[tooltip]::before {
+  content: "";
+  border: 5px solid transparent;
+  z-index: 1001;
+}
+
+/* Tooltip Box */
+[tooltip]::after {
+  content: attr(tooltip);
+
+  min-width: 3em;
+  max-width: 21em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  padding: 0.6em 1em;
+  border-radius: 5px;
+
+  background: $gray-900;       // consistent dark background
+  color: $white;
+
+  font-family: inherit;
+  text-align: center;
+
+  box-shadow: 0 8px 20px -5px $shadow-md;
+  z-index: 1000;
+}
+
+/* Show on hover */
+[tooltip]:hover::before,
+[tooltip]:hover::after {
+  display: block;
+}
+
+/* Hide empty tooltips */
+[tooltip=""]::before,
+[tooltip=""]::after {
+  display: none !important;
+}
+
+/* =====================================================
+   FLOW: UP (Default)
+   ===================================================== */
+
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {
+  bottom: 100%;
+  border-bottom-width: 0;
+  border-top-color: $gray-900;
+}
+
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {
+  bottom: calc(100% + 5px);
+}
+
+[tooltip]:not([flow])::before,
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,
+[tooltip][flow^="up"]::after {
+  left: 50%;
+  transform: translate(-50%, -0.5em);
+}
+
+/* =====================================================
+   FLOW: DOWN
+   ===================================================== */
+
+[tooltip][flow^="down"]::before {
+  top: 100%;
+  border-top-width: 0;
+  border-bottom-color: $gray-900;
+}
+
+[tooltip][flow^="down"]::after {
+  top: calc(100% + 5px);
+}
+
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {
+  left: 50%;
+  transform: translate(-50%, 0.5em);
+}
+
+/* =====================================================
+   FLOW: LEFT
+   ===================================================== */
+
+[tooltip][flow^="left"]::before {
+  top: 50%;
+  left: -5px;
+  border-right-width: 0;
+  border-left-color: $gray-900;
+  transform: translate(-0.5em, -50%);
+}
+
+[tooltip][flow^="left"]::after {
+  top: 50%;
+  right: calc(100% + 5px);
+  transform: translate(-0.5em, -50%);
+}
+
+/* =====================================================
+   FLOW: RIGHT
+   ===================================================== */
+
+[tooltip][flow^="right"]::before {
+  top: 50%;
+  right: -5px;
+  border-left-width: 0;
+  border-right-color: $gray-900;
+  transform: translate(0.5em, -50%);
+}
+
+[tooltip][flow^="right"]::after {
+  top: 50%;
+  left: calc(100% + 5px);
+  transform: translate(0.5em, -50%);
+}
+
+/* =====================================================
+   Animations
+   ===================================================== */
+
+@keyframes tooltip-vert {
+  to {
+    opacity: 0.95;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes tooltip-horz {
+  to {
+    opacity: 0.95;
+    transform: translate(0, -50%);
+  }
+}
+
+[tooltip]:not([flow]):hover::before,
+[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,
+[tooltip][flow^="up"]:hover::after,
+[tooltip][flow^="down"]:hover::before,
+[tooltip][flow^="down"]:hover::after {
+  animation: tooltip-vert 200ms ease-out forwards;
+}
+
+[tooltip][flow^="left"]:hover::before,
+[tooltip][flow^="left"]:hover::after,
+[tooltip][flow^="right"]:hover::before,
+[tooltip][flow^="right"]:hover::after {
+  animation: tooltip-horz 200ms ease-out forwards;
+}

@@ -1,0 +1,3 @@
+HOW to use api
+
+http://localhost:3000/v1/api/products?filters[name][$contains]=phone&filters[price][$gte]=100&filters[price][$lte]=1000&filters[category][$in]=65f1a2b3c4d5e6f789012345,65f1a2b3c4d5e6f789012346&filters[brand][$ne]=apple&filters[stock][$gt]=0&filters[rating][$gte]=4&filters[title][$startsWith]=smart&filters[description][$notContains]=old&filters[slug][$endsWith]=pro&filters[deletedAt][$null]=true

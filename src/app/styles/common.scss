@@ -1,0 +1,179 @@
+.edit-icon {
+  border-radius: 50%;
+  padding: 0.5rem;
+  background-color: rgba(0,0,0,0.7);
+
+  svg {
+    color: white;
+    // font-size: 1rem;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.detail-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 16px;
+
+  .form-page {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .page-info {
+    position: sticky;
+    top: 10px;
+    width: 300px;
+    min-width: 220px;
+    max-width: 280px;
+    height: fit-content;
+    padding: 0;
+    overflow-y: auto !important;
+    max-height: calc(100vh - 80px);
+
+    // ── section block ──────────────────────────────────────
+    .sidebar-block {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f0f0f0;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    // ── label / heading ────────────────────────────────────
+    h3 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      text-transform: uppercase;
+      margin: 0 0 6px;
+      padding: 0;
+      border: none;
+    }
+
+    // ── date value ─────────────────────────────────────────
+    p.sidebar-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: #111827;
+      margin: 0 0 10px;
+      line-height: 1.4;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // ── sections nav list ──────────────────────────────────
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin-bottom: 2px;
+
+        a {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          text-decoration: none;
+          font-size: 13px;
+          font-weight: 400;
+          color: #374151;
+          padding: 5px 8px;
+          border-radius: 6px;
+          transition: background 0.15s, color 0.15s;
+          text-transform: capitalize;
+
+          &::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            border-top: 1.5px solid currentColor;
+            border-right: 1.5px solid currentColor;
+            border-radius: 1px;
+            transform: rotate(45deg);
+            flex-shrink: 0;
+            opacity: 0.5;
+          }
+
+          &:hover {
+            background: #f3f4f6;
+            color: #111827;
+
+            &::before {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+    // ── module setting card ────────────────────────────────
+    .module-setting-card {
+      h3 {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #9ca3af;
+        text-transform: uppercase;
+        margin: 0 0 6px;
+        border: none;
+        padding: 0;
+      }
+
+      p {
+        font-size: 12px;
+        color: #6b7280;
+        margin: 0 0 12px;
+        line-height: 1.5;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .module-btn {
+        width: 100%;
+        background: #111827;
+        color: #fff;
+        border: none;
+        border-radius: 7px;
+        padding: 9px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        letter-spacing: 0.01em;
+
+        svg {
+          font-size: 16px;
+        }
+
+        &:hover {
+          background: #1d4ed8;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+        }
+      }
+    }
+
+    // ── panel card shell ───────────────────────────────────
+    &.panel {
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+
+:root {
+	--c-gray-900: #000;
+	--c-gray-800: #1f1f1f;
+	--c-gray-700: #2e2e2e;
+	--c-gray-600: #313131;
+	--c-gray-500: #969593;
+	--c-gray-400: #a6a6a6;
+	--c-gray-300: #bdbbb7;
+	--c-gray-200: #f1f1f1;
+	--c-gray-100: #fff;
+	--c-green-500: #45ffbc;
+	--c-olive-500: #e3ffa8;
+	--c-white: var(--c-gray-100);
+	--c-text-primary: var(--c-gray-100);
+	--c-text-secondary: var(--c-gray-200);
+	--c-text-tertiary: var(--c-gray-500);
+}
+.icon-button {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	border: 0;
+	background-color: transparent;
+	border: 1px solid var(--c-gray-500);
+	color: var(--c-text-primary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: 0.25s ease;
+	flex-shrink: 0;
+}
+.icon-button.large {
+	width: 42px;
+	height: 42px;
+	font-size: 1.25em;
+}
+.icon-button i {
+	transition: 0.25s ease;
+}
+.icon-button:hover, .icon-button:focus {
+	background-color: var(--c-green-500);
+	box-shadow: 0 0 0 4px var(--c-gray-800), 0 0 0 5px var(--c-text-tertiary);
+}

@@ -1,0 +1,285 @@
+.customer-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    column-gap: 2%;
+
+    .user-profile {
+        padding: 14px;
+
+        .user-name-profile {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            column-gap: 15px;
+            width: 100%;
+
+            .name-para {
+                font-size: 18px;
+                line-height: 1.25;
+                font-weight: 600;
+                color: rgba(0,0,0,0.7);
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+
+        .top-div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+
+            .edit-icon {
+                border-radius: 50%;
+                padding: 5px;
+                background-color: rgba(0,0,0,0.7);
+                width: 30px;
+                height: 30px;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+
+                svg {
+                    color: white;
+                    // font-size: 1rem;
+                    width: 18px;
+                    height: 18px;
+                }
+
+            }
+
+            .card-heading {
+                font-weight: 600;
+                font-size: 1.125rem;
+                line-height: 1.75rem;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .detail-box {
+            margin-top: 15px;
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            row-gap: 20px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            list-style: none;
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            justify-content: flex-start;
+            row-gap: 15px;
+            p {
+                padding: 0;
+                margin: 0;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            li {
+                display: flex;
+                align-items: center;
+                column-gap: 10px;
+                color: #333;
+                gap: 0;
+                padding: 0;
+                font-size: 16px;
+                
+
+                svg {
+                    height: 20px;
+                    width: 20px;
+                    margin-right: 10px;
+                }
+
+                a {
+                    color: rgba(0,0,0,0.7);
+                    word-break: break-all;
+
+                    &:hover {
+                        color: #ff0000;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .panel {
+        width: 24%;
+    }
+    .admin-form {
+        width: 74%;
+    }
+}
+
+.review-customer-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 100%;
+
+    .review-profile {
+        padding: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+
+        .top-div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+
+            .edit-icon {
+                border-radius: 50%;
+                padding: 0.5rem;
+                background-color: rgba(0,0,0,0.7);
+
+                svg {
+                    color: white;
+                    // font-size: 1rem;
+                    width: 18px;
+                    height: 18px;
+                }
+
+            }
+
+            .card-heading {
+                font-weight: 600;
+                font-size: 1.125rem;
+                line-height: 1.75rem;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .Overall-profile {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            width: 50%;
+
+            .overall_rating_div {
+                margin-top: 5px;
+                display: flex;
+                align-items: center;
+
+                .rating-list {
+                    span {
+                        font-size: 16px;
+                    }
+
+                    p {
+                        margin: 0;
+                        padding: 0;
+                        color: #1069cfb3;
+                        font-size: 12px;
+                        font-weight: 600;
+                        cursor: pointer;
+                    }
+
+                    p:hover {
+                        color: #ff1c1cb3;
+                    }
+                }
+
+                h4 {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 45px;
+                    line-height: 40px;
+
+                    min-width: 60px;
+                    padding: 5px 5px 5px 0px;
+                    color: rgb(51, 51, 51);
+                    font-family: "Helvetica Neue", Helvetica, Arial, Frutiger, Univers, sans-serif;
+                    font-style: normal;
+                    font-weight: normal;
+                    text-transform: none;
+                    text-decoration: none;
+
+                }
+            }
+
+
+        }
+
+        .Snapshot-profile {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            width: 50%;
+
+            .Snapshot-details {
+                margin: 0;
+                padding: 0;
+
+
+                p {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                a {
+                    text-decoration: none;
+                }
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    color: gray;
+                    gap: 0.2rem;
+                    padding: .5rem;
+                }
+            }
+        }
+
+
+
+    }
+
+    >div {
+        &:first-of-type {
+            width: 64%;
+        }
+
+        &:nth-of-type(2) {
+            width: 34%;
+            margin-top: 10px;
+
+        }
+    }
+}
+
+@media only screen and (max-width:1023px) {
+    .customer-layout {
+        flex-direction: column;
+        row-gap: 20px;
+
+        .panel {
+            width: 100%;
+        }
+
+        .admin-form {
+            width: 100%;
+        }
+    }
+}
