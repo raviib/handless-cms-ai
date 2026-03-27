@@ -1,3 +1,5 @@
+@import './typography';   // font system — must be first
+@import './colors';       // color variables
 @import './common.scss';
 @import './loader.scss';
 @import './conf.scss';

@@ -74,8 +74,8 @@ table {
 
     .table-heading {
         text-transform: uppercase;
-        font-size: 18px;
-        font-weight: 700;
+        font-size: var(--text-lg);
+        font-weight: var(--fw-bold);
         margin: 0;
         color: rgba(0,0,0,0.7);
     }
@@ -113,7 +113,7 @@ table {
         text-transform: capitalize;
         padding: 5px 10px;
         border-radius: 1rem;
-        font-size: 12px;
+        font-size: var(--text-xs);
 
         &.pending {
             background: #FFC107;
@@ -140,7 +140,7 @@ table {
         text-transform: capitalize;
         padding: 5px 10px;
         border-radius: 1rem;
-        font-size: 12px;
+        font-size: var(--text-xs);
         width: fit-content;
 
         &.approved-action {
@@ -326,15 +326,15 @@ table {
         }
 
         th {
-            font-weight: 500;
-            font-size: 16px;
+            font-weight: var(--fw-medium);
+            font-size: var(--text-sm);
             text-align: left;
             background-color: #dedede;
             padding: 12px 8px 10px;
         }
 
         td {
-            font-size: 16px;
+            font-size: var(--text-base);
             text-align: left;
 
             .icon-div {
@@ -420,12 +420,11 @@ table {
                     border-bottom: solid 1px #ccc;
                     padding: 10px;
                     word-break: break-all;
-                    font-size: 16px;
+                    font-size: var(--text-base);
 
                     .table-Printvalue {
                         width: 38%;
-                        /* background: #ccc; */
-                        font-weight: 500;
+                        font-weight: var(--fw-medium);
                         color: rgba(0,0,0,0.7);
                         border-right: solid 1px #ccc;
                         text-transform: capitalize;
@@ -441,23 +440,19 @@ table {
     }
 
     .admin-table {
-        font-size: 1rem;
+        font-size: var(--text-base);
 
         th,
         td {
             padding: 6px;
-            /* Adjust cell padding for smaller screens */
         }
 
         th {
-            font-size: 1rem;
-            /* Adjust font size for table headers on smaller screens */
+            font-size: var(--text-base);
         }
 
         td {
-
-            font-size: 1rem;
-            /* Adjust font size for table data cells on smaller screens */
+            font-size: var(--text-base);
         }
     }
 }

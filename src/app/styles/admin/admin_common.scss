@@ -1,8 +1,12 @@
+@import "../typography";
+
 :root {
-    --bs-body-color: #212529;
-    --bs-body-bg: #fff;
-    --bs-border-width: 1px;
-    --bs-border-color: #dee2e6 --bs-border-radius:0.375rem --grey-color: #d6d3d347;
+    --bs-body-color:    #212529;
+    --bs-body-bg:       #fff;
+    --bs-border-width:  1px;
+    --bs-border-color:  #dee2e6;
+    --bs-border-radius: 0.375rem;
+    --grey-color:       #d6d3d347;
 }
 
 *,
@@ -11,7 +15,8 @@ html {
 }
 
 body {
-    font-family: "League Spartan", sans-serif !important;
+    // font-primary (Inter) is set globally by _typography.scss
+    // League Spartan is reserved for headings via $font-heading
     background: var(--grey-color);
     padding: 0 !important;
 }
@@ -51,12 +56,11 @@ body {
     .admin-page-heading {
         h4 {
             margin: 9px 0px;
-            font-size: xx-large;
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
             text-transform: capitalize;
-            font-size: 2rem;
             color: #757575;
-            font-weight: 600;
-            font-family: initial;
+            font-weight: var(--fw-bold);
         }
     }
 
@@ -66,8 +70,8 @@ body {
         text-transform: capitalize;
         border-bottom: 1px solid #ddd;
         width: 100%;
-        font-weight: 700;
-        font-size:24px;
+        font-weight: var(--fw-bold);
+        font-size: var(--text-2xl);
     }
 
     .page-cong-link-section {
@@ -294,11 +298,9 @@ body {
             }
         }
 
-        //  1 = 8.33
         .validType-msg {
             color: #d42424;
-            font-size: 10px;
-
+            font-size: var(--text-xs);
         }
 
         .PrivateSwitchBase-root {
@@ -423,10 +425,10 @@ body {
 
         .form-label {
             display: inline-block;
-            // padding-bottom: 10px;
             line-height: 30px;
             text-transform: capitalize;
-            font-size: 16px;
+            font-size: var(--text-base);
+            font-weight: var(--fw-medium);
             float: left;
         }
 
@@ -453,8 +455,8 @@ body {
             display: block;
             width: 100%;
             padding: 8px 12px;
-            font-size: 16px;
-            font-weight: 400;
+            font-size: var(--text-base);
+            font-weight: var(--fw-regular);
             line-height: 1.5;
             color: #777777;
             -webkit-appearance: none;
@@ -475,10 +477,10 @@ body {
                 text-overflow: ellipsis;
                 text-align: start !important;
                 white-space: pre;
-                font-size: 16px;
+                font-size: var(--text-base);
                 text-transform: lowercase;
-                font-family: Arial, Helvetica, sans-serif;
-                font-weight: 400;
+                font-family: var(--font-primary);
+                font-weight: var(--fw-regular);
                 padding: 5px;
                 position: relative;
                 overflow: hidden;
@@ -528,11 +530,11 @@ body {
             }
 
             &::placeholder {
-                font-size: 16px;
+                font-size: var(--text-base);
                 color: #808386;
                 text-transform: lowercase;
-                font-family: Arial, Helvetica, sans-serif;
-                font-weight: 400;
+                font-family: var(--font-primary);
+                font-weight: var(--fw-regular);
             }
 
         }

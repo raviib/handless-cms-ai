@@ -150,17 +150,29 @@ const SingleComponent = ({
         
         onChange(updatedData, fieldKey, "component");
     };
+    const isSeo = fieldKey === "seo";
     return (
-        <Box sx={{ mb: 2,mt: 2, p: 2, border: '1px solid #e0e0e0', borderRadius: 1, backgroundColor: '#f9f9f9' }}>
-            <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600, color: '#333' }}>
-                {field.Printvalue || field.component_display_name || fieldKey}
-            </Typography>
-            {fieldKey === "seo" && (
-                <GenerateSeoButton
-                    formData={formData}
-                    onChange={(seoPayload) => onChange(seoPayload, fieldKey, "component")}
-                />
-            )}
+        <Box sx={isSeo ? {
+            mb: 2, mt: 2, p: "18px 20px",
+            border: "1px solid #e0e7ff",
+            borderRadius: "10px",
+            backgroundColor: "#fafbff",
+            backgroundImage: "linear-gradient(135deg, #fafbff 0%, #f5f3ff 100%)",
+        } : {
+            mb: 2, mt: 2, p: 2, border: "1px solid #e0e0e0", borderRadius: 1, backgroundColor: "#f9f9f9",
+        }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, flexWrap: "wrap", gap: 8 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: isSeo ? "#4f46e5" : "#333", fontSize: isSeo ? 14 : 13, display: "flex", alignItems: "center", gap: "6px" }}>
+                    {isSeo && <span style={{ fontSize: 16 }}>🔍</span>}
+                    {field.Printvalue || field.component_display_name || fieldKey}
+                </Typography>
+                {isSeo && (
+                    <GenerateSeoButton
+                        formData={formData}
+                        onChange={(seoPayload) => onChange(seoPayload, fieldKey, "component")}
+                    />
+                )}
+            </div>
             <div className="admin-form">
                 <div className="row">
                     {visibleFields.map((subField, idx) => {

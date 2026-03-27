@@ -1,0 +1,227 @@
+// ============================================
+// TYPOGRAPHY SYSTEM
+// Admin Panel — Font, Scale & Utility Classes
+// ============================================
+
+// --------------------------------------------
+// FONT FAMILIES
+// --------------------------------------------
+// Next.js injects --font-inter and --font-league-spartan via layout.tsx
+$font-primary:   var(--font-inter, "Inter", system-ui, -apple-system, sans-serif);
+$font-heading:   var(--font-league-spartan, "League Spartan", "Inter", sans-serif);
+$font-mono:      "JetBrains Mono", "Fira Code", monospace;
+
+// CSS custom properties (available everywhere, including inline styles)
+:root {
+  --font-primary:  var(--font-inter, "Inter", system-ui, sans-serif);
+  --font-heading:  var(--font-league-spartan, "League Spartan", sans-serif);
+  --font-mono:     "JetBrains Mono", "Fira Code", monospace;
+
+  // --------------------------------------------------
+  // TYPE SCALE  (base 16 px → 1 rem)
+  // --------------------------------------------------
+  // xs   → labels, badges, helper text
+  // sm   → secondary text, table cells, captions
+  // base → default body / form text
+  // md   → slightly emphasised body
+  // lg   → sub-headings, card titles
+  // xl   → section headings
+  // 2xl  → page headings
+  // 3xl  → display / hero numbers
+  // --------------------------------------------------
+  --text-xs:   0.6875rem;   // 11 px
+  --text-sm:   0.75rem;     // 12 px
+  --text-base: 0.875rem;    // 14 px  ← admin default
+  --text-md:   1rem;        // 16 px
+  --text-lg:   1.125rem;    // 18 px
+  --text-xl:   1.25rem;     // 20 px
+  --text-2xl:  1.5rem;      // 24 px
+  --text-3xl:  2rem;        // 32 px
+
+  // --------------------------------------------------
+  // FONT WEIGHTS
+  // --------------------------------------------------
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  // --------------------------------------------------
+  // LINE HEIGHTS
+  // --------------------------------------------------
+  --lh-tight:   1.25;
+  --lh-snug:    1.375;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.625;
+
+  // --------------------------------------------------
+  // LETTER SPACING
+  // --------------------------------------------------
+  --ls-tight:  -0.01em;
+  --ls-normal:  0;
+  --ls-wide:    0.04em;
+  --ls-wider:   0.08em;
+  --ls-widest:  0.12em;
+}
+
+// SCSS aliases (use in .scss files for compile-time resolution)
+$text-xs:   var(--text-xs);
+$text-sm:   var(--text-sm);
+$text-base: var(--text-base);
+$text-md:   var(--text-md);
+$text-lg:   var(--text-lg);
+$text-xl:   var(--text-xl);
+$text-2xl:  var(--text-2xl);
+$text-3xl:  var(--text-3xl);
+
+// ============================================
+// BASE RESET
+// ============================================
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: $font-primary;
+  font-size: var(--text-base);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: #212529;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ============================================
+// HEADING DEFAULTS
+// ============================================
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-heading;
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  color: #111827;
+  margin: 0 0 0.5em;
+}
+
+h1 { font-size: var(--text-3xl); font-weight: var(--fw-bold); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl);  }
+h4 { font-size: var(--text-lg);  }
+h5 { font-size: var(--text-md);  }
+h6 { font-size: var(--text-base); }
+
+p  { margin: 0 0 1em; line-height: var(--lh-normal); }
+small { font-size: var(--text-sm); }
+code, pre { font-family: $font-mono; font-size: var(--text-sm); }
+
+// ============================================
+// UTILITY CLASSES  (.text-*)
+// ============================================
+.text-xs   { font-size: var(--text-xs)   !important; }
+.text-sm   { font-size: var(--text-sm)   !important; }
+.text-base { font-size: var(--text-base) !important; }
+.text-md   { font-size: var(--text-md)   !important; }
+.text-lg   { font-size: var(--text-lg)   !important; }
+.text-xl   { font-size: var(--text-xl)   !important; }
+.text-2xl  { font-size: var(--text-2xl)  !important; }
+.text-3xl  { font-size: var(--text-3xl)  !important; }
+
+// Weight utilities
+.fw-regular  { font-weight: var(--fw-regular)  !important; }
+.fw-medium   { font-weight: var(--fw-medium)   !important; }
+.fw-semibold { font-weight: var(--fw-semibold) !important; }
+.fw-bold     { font-weight: var(--fw-bold)     !important; }
+
+// Family utilities
+.font-primary { font-family: $font-primary !important; }
+.font-heading { font-family: $font-heading !important; }
+.font-mono    { font-family: $font-mono    !important; }
+
+// Transform utilities
+.text-uppercase   { text-transform: uppercase   !important; }
+.text-lowercase   { text-transform: lowercase   !important; }
+.text-capitalize  { text-transform: capitalize  !important; }
+
+// Truncation
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// ============================================
+// ADMIN-SPECIFIC SEMANTIC ROLES
+// ============================================
+
+// Page-level heading (e.g. "Manage Banners")
+.admin-page-title {
+  font-family: $font-heading;
+  font-size: var(--text-2xl);
+  font-weight: var(--fw-bold);
+  color: #111827;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+
+// Section / card heading (e.g. "Basic Info")
+.admin-section-title {
+  font-family: $font-heading;
+  font-size: var(--text-xl);
+  font-weight: var(--fw-semibold);
+  color: #1f2937;
+  letter-spacing: var(--ls-tight);
+}
+
+// Table column header
+.admin-table-header {
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: #6b7280;
+}
+
+// Form label
+.admin-label {
+  font-size: var(--text-base);
+  font-weight: var(--fw-medium);
+  color: #374151;
+  line-height: var(--lh-snug);
+}
+
+// Helper / hint text below a field
+.admin-hint {
+  font-size: var(--text-xs);
+  color: #9ca3af;
+  line-height: var(--lh-normal);
+}
+
+// Validation error text
+.admin-error {
+  font-size: var(--text-xs);
+  color: #d42424;
+  font-weight: var(--fw-medium);
+}
+
+// Badge / status chip text
+.admin-badge-text {
+  font-size: var(--text-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+
+// Sidebar nav item
+.admin-nav-item {
+  font-size: var(--text-base);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-snug);
+}
+
+// Muted / secondary text
+.text-muted {
+  color: #6b7280 !important;
+  font-size: var(--text-sm);
+}
