@@ -40,6 +40,7 @@ const NestedComponentRenderer = ({
     locale = "en",
     moduleSlug = "",
     recordId = "",
+    aiContentEnabled = false,
 }) => {
     const fieldKey = field.field?.value || field.field;
     const fullPath = parentPath ? `${parentPath}.${fieldKey}` : fieldKey;
@@ -61,6 +62,7 @@ const NestedComponentRenderer = ({
                     locale={locale}
                     moduleSlug={moduleSlug}
                     recordId={recordId}
+                    aiContentEnabled={aiContentEnabled}
                 />
             );
         } else if (field.component_type === "single") {
@@ -79,6 +81,7 @@ const NestedComponentRenderer = ({
                     locale={locale}
                     moduleSlug={moduleSlug}
                     recordId={recordId}
+                    aiContentEnabled={aiContentEnabled}
                 />
             );
         }

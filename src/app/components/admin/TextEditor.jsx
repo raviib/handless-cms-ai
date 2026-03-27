@@ -24,14 +24,17 @@ const TextEditor = ({ placeholder, setContent, content = "", is_coustom = false,
             value={content}
             config={joditConfig}
             onBlur={(newContent) => {
+                const cleanContent =
+                    newContent === "<p><br></p>" ? "" : newContent.trim();
+
                 if (is_coustom === "obj") {
-                    setContent(newContent, fieldName, "object", 'text-editor');
+                    setContent(cleanContent, fieldName, "object", 'text-editor');
                 } else if (is_coustom === "non-obj") {
-                    setContent(newContent, fieldName, 'text-editor');
+                    setContent(cleanContent, fieldName, 'text-editor');
                 } else if (is_coustom === "rich-text-markdown") {
-                    setContent(newContent, fieldName, 'rich-text-markdown');
+                    setContent(cleanContent, fieldName, 'rich-text-markdown');
                 } else {
-                    setContent(newContent);
+                    setContent(cleanContent);
                 }
             }}
             onChange={() => { }}
