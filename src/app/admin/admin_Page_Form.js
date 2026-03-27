@@ -5,10 +5,10 @@ import { checkFileType } from '@/app/utils/db/validations';
 import { TostError } from '@/app/utils/tost/Tost';
 import { convertToSEOUrl } from '@/app/utils/usefullFunction/usedFunction';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Page_client_section from "./admin_section_form";
 
-const Page_client = ({ DEFAULT_OBJECT, Page_Fields, objectField, postURL, putUrl, isEdit, redirectUrl, isView = false, searchParams = {}, locale = "en", localeData = null, localeLoading = false, isFallback = false, onSeoChange = null }) => {
+const Page_client = ({ DEFAULT_OBJECT, Page_Fields, objectField, postURL, putUrl, isEdit, redirectUrl, isView = false, searchParams = {}, locale = "en", localeData = null, localeLoading = false, isFallback = false, onSeoChange = null, onRegisterApplyTranslation = null }) => {
     const router = useRouter();
     const { duplicate = null } = searchParams;
     const [formData, setFormData] = useState(DEFAULT_OBJECT);
@@ -18,6 +18,16 @@ const Page_client = ({ DEFAULT_OBJECT, Page_Fields, objectField, postURL, putUrl
     const [deleteSingleImageList, setDeleteSingleImageList] = useState([]);
     const [deleteMultyImages, setDeleteMultyImages] = useState({});
     const [fieldErrors, setFieldErrors] = useState({}); // Store field-level errors
+
+    // Register translation bridge so LocaleFormWrapper can read/set formData
+    useEffect(() => {
+        if (onRegisterApplyTranslation) {
+            onRegisterApplyTranslation({
+                getFormData: () => formData,
+                setFormData: (data) => setFormData(data),
+            });
+        }
+    }, [onRegisterApplyTranslation, formData]);
 
     // When locale changes and new data arrives, merge it into formData
     useEffect(() => {

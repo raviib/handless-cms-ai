@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { Button, Menu, MenuItem, Chip } from "@mui/material";
+import { Button, Menu, MenuItem, Chip, Box } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import LanguageIcon from "@mui/icons-material/Language";
+import TranslateIcon from "@mui/icons-material/Translate";
 import ALL_LOCALES from "@/app/utils/db/internationalization.db.json";
 
 /**
@@ -11,17 +11,17 @@ import ALL_LOCALES from "@/app/utils/db/internationalization.db.json";
  *  - locales: string[]  — codes from page-config (e.g. ["en","hi"])
  *  - value: string      — currently selected locale code
  *  - onChange: (code) => void
+ *  - onTranslateClick: () => void — opens translation modal
  */
-const LocaleSwitcher = ({ locales = ["en"], value = "en", onChange, isFallback = false }) => {
+const LocaleSwitcher = ({ locales = ["en"], value = "en", onChange, isFallback = false, onTranslateClick }) => {
     const [anchor, setAnchor] = useState(null);
 
-    // Only show if more than one locale is configured
     if (!locales || locales.length <= 1) return null;
 
     const current = ALL_LOCALES.find((l) => l.code === value) ?? { code: value, name: value, flag: "🌐" };
 
     return (
-        <>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Button
                 variant="outlined"
                 size="small"
@@ -43,6 +43,26 @@ const LocaleSwitcher = ({ locales = ["en"], value = "en", onChange, isFallback =
                     <Chip label="No translation" size="small" color="warning" sx={{ ml: 1, height: 20, fontSize: 11 }} />
                 )}
             </Button>
+
+            {/* Translate button — only when viewing a non-English locale with no translation yet */}
+            {isFallback && value !== "en" && (
+                <Button
+                    variant="contained"
+                    size="small"
+                    startIcon={<TranslateIcon />}
+                    onClick={onTranslateClick}
+                    sx={{
+                        textTransform: "none",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        bgcolor: "#f59e0b",
+                        color: "#fff",
+                        "&:hover": { bgcolor: "#d97706" },
+                    }}
+                >
+                    Translate
+                </Button>
+            )}
 
             <Menu
                 anchorEl={anchor}
@@ -68,7 +88,7 @@ const LocaleSwitcher = ({ locales = ["en"], value = "en", onChange, isFallback =
                     );
                 })}
             </Menu>
-        </>
+        </Box>
     );
 };
 
