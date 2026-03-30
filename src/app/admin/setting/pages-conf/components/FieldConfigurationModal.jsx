@@ -95,7 +95,6 @@ const AiConfigTab = ({ fieldConfig, onChange }) => (
                 placeholder='e.g. "Write a short, punchy product tagline. Max 10 words. Focus on quality and durability."'
                 value={fieldConfig.aiPrompt || ''}
                 onChange={(e) => onChange('aiPrompt', e.target.value)}
-                disabled={!fieldConfig.aiEnabled}
                 helperText="Optional. Injected as extra context when AI generates content for this specific field."
                 sx={{
                     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#7c3aed' },
