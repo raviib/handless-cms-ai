@@ -13,9 +13,11 @@ const corporate_responsibilitySchema = new Schema(
         images: {
             type: [String],
         },
+        year: {
+            type: String,
+        },
         date: {
             type: String,
-            required: true,
         },
         content: {
             type: String,

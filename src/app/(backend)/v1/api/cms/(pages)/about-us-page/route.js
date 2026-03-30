@@ -9,11 +9,31 @@ export async function GET(request) {
     try {
         await dbConnect();
         const searchParams = request.nextUrl.searchParams;
+        const lang = searchParams.get("lang") || "en";
         const fieldSelector = getFieldSelector(searchParams);
-        let data = await about_us_pageSchema.findOne().select(fieldSelector)
+
+        // Fetch the base English document
+        let data = await about_us_pageSchema
+            .findOne({ $or: [{ lang: "en" }, { lang: { $exists: false } }] })
+            .select(fieldSelector)
             .populate({ path: "banner", match: { isActive: true } });
+
         if (!data) {
-            data = {};
+            return NextResponse.json({ success: true, message: "Fetched Successfully", data: {} }, { status: 200 });
+        }
+
+        // If a non-English locale is requested, try to find the translation
+        if (lang !== "en") {
+            const rootId = data.rootId ?? data._id;
+            const translation = await about_us_pageSchema
+                .findOne({ rootId, lang })
+                .select(fieldSelector)
+            .populate({ path: "banner", match: { isActive: true } });
+
+            if (translation) {
+                data = translation;
+            }
+            // else fall through and return the English base as fallback
         }
 
         return NextResponse.json({

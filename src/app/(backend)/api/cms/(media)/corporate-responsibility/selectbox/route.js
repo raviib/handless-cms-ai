@@ -18,18 +18,19 @@ export async function GET(request) {
         const limit = parseInt(searchParams.get('limit')) || 50;
         const search = searchParams.get('search') || '';
 
-        const query = { isActive: true, ...mongoQuery };
+        const query = {  ...mongoQuery };
 
         if (search) {
             query.$or = [
                 { name: { $regex: search, $options: 'i' } },
-                { displayName: { $regex: search, $options: 'i' } }
+                { displayName: { $regex: search, $options: 'i' } },
+                { year: { $regex: search, $options: 'i' } }
             ];
         }
 
         const totalCount = await corporate_responsibilitySchema.countDocuments(query);
         const data = await corporate_responsibilitySchema.find(query)
-          .select("_id displayName name")
+          .select("_id displayName name year")
           .sort({ sort: -1, name: 1 })
           .skip((page - 1) * limit)
           .limit(limit)

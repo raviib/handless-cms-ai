@@ -436,7 +436,7 @@ export async function GET(request) {
         const limit = parseInt(searchParams.get("limit")) || 50;
         const search = searchParams.get("search") || "";
 
-        const query = { isActive: true, $or: [{ lang }, { lang: { $exists: false } }], ...mongoQuery };
+        const query = {  $or: [{ lang }, { lang: { $exists: false } }], ...mongoQuery };
         if (search) query.$or = [${searchConds}];
 
         const totalCount = await ${M}.countDocuments(query);

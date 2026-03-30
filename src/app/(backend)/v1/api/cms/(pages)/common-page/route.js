@@ -13,6 +13,7 @@ export async function GET(request) {
         await dbConnect();
         const searchParams = request.nextUrl.searchParams;
         const fieldSelector = getFieldSelector(searchParams);
+        const lang = searchParams.get("lang") || "en";
         const { mongoQuery, regularQuery } = buildAdvancedQuery(searchParams);
 
         const {
@@ -21,7 +22,28 @@ export async function GET(request) {
             input_data,
         } = regularQuery;
 
-        let que = { isActive: true, ...mongoQuery };
+        // Filter by lang: match exact lang OR fall back to English docs that have no translation
+        let que = {
+            isActive: true,
+            $or: [{ lang }, { lang: { $exists: false } }],
+            ...mongoQuery,
+        };
+
+        // If requesting a non-English lang, prefer translated docs but exclude
+        // English-only docs that already have a translation in the requested lang
+        if (lang !== "en") {
+            const translatedRootIds = await common_pageSchema
+                .find({ lang, isActive: true })
+                .distinct("rootId");
+            que = {
+                isActive: true,
+                $or: [
+                    { lang },
+                    { $and: [{ $or: [{ lang: "en" }, { lang: { $exists: false } }] }, { _id: { $nin: translatedRootIds } }] },
+                ],
+                ...mongoQuery,
+            };
+        }
 
         if (input_data) {
             const searchCondition = {

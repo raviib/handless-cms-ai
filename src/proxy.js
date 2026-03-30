@@ -53,23 +53,23 @@ export async function proxy(request) {
                 return NextResponse.redirect(new URL('/private/login', request.url));
             }
         }
-        if (isV1ApiRoute) {
-            const authHeader = request.headers.get("authorization");
+        // if (isV1ApiRoute) {
+        //     const authHeader = request.headers.get("authorization");
 
-            if (!authHeader || !authHeader.startsWith("Bearer ")) {
-                return NextResponse.json(
-                    { success: false, message: "Unauthorized: Bearer token missing", },
-                    { status: 401 }
-                );
-            }
-            const bearerToken = authHeader.split(" ")[1];
-            if (bearerToken !== process.env.V1_SECRET_TOKEN) {
-                return NextResponse.json(
-                    { success: false, message: "Unauthorized: Invalid token" },
-                    { status: 401 }
-                );
-            }
-        }
+        //     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        //         return NextResponse.json(
+        //             { success: false, message: "Unauthorized: Bearer token missing", },
+        //             { status: 401 }
+        //         );
+        //     }
+        //     const bearerToken = authHeader.split(" ")[1];
+        //     if (bearerToken !== process.env.V1_SECRET_TOKEN) {
+        //         return NextResponse.json(
+        //             { success: false, message: "Unauthorized: Invalid token" },
+        //             { status: 401 }
+        //         );
+        //     }
+        // }
 
         if (pathname === "/private/login") {
             if (hasToken) {

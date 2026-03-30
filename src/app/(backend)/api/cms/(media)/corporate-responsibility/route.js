@@ -18,16 +18,15 @@ export async function GET(request) {
     try {
         await dbConnect();
         const searchParams = request.nextUrl.searchParams;
-        
-        // Build advanced query with filter support
+
         const { mongoQuery, regularQuery } = buildAdvancedQuery(searchParams);
-        
+
         const {
             page = 1,
             limit = 25,
             input_data,
         } = regularQuery;
-        
+
         let que = { ...mongoQuery };
 
         if (input_data) {
@@ -35,29 +34,29 @@ export async function GET(request) {
                 $or: [
                 {
                    "name": { $regex: input_data, $options: "i" },
+                },
+                {
+                   "year": { $regex: input_data, $options: "i" },
                 }
                 ]
             };
-            
-            // Merge with existing query
             if (que.$and) {
                 que.$and.push(searchCondition);
             } else {
                 que = { ...que, ...searchCondition };
             }
         }
-        
-        // Get field selector from query params
+
         const fieldSelector = getFieldSelector(searchParams);
-        
+
         const totalDocs = await corporate_responsibilitySchema.find({ ...que }).countDocuments();
         let data = await corporate_responsibilitySchema.find({ ...que })
             .select(fieldSelector)
             .skip((page - 1) * limit)
             .limit(limit)
-            .sort({ sort: 1 }); // Populate first-level relation fields
+            .sort({ sort: 1 });
 
-            
+
         return NextResponse.json({
             success: true,
             message: "Fetched Successfully",
@@ -84,7 +83,6 @@ export async function POST(request) {
         await getFileName({ filesField, formData, objToPush, FILE_PATH, allUploadedImages });
         await isExistThenAdd({ objToPush, unsetToPush, formData, filesField, objectField });
 
-        // Add validation based on DB schema
         const is_DbValidator = await DbValidator(objToPush);
         if (is_DbValidator.is_error) {
             await deleteImageIfError(allUploadedImages);
@@ -92,7 +90,7 @@ export async function POST(request) {
         }
 
         await corporate_responsibilitySchema.create({ ...objToPush });
-        
+
         return NextResponse.json({
             success: true,
             message: "Created Successfully",

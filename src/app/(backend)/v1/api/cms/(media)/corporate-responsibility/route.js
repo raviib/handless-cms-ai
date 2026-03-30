@@ -10,9 +10,8 @@ export async function GET(request) {
     try {
         await dbConnect();
         const searchParams = request.nextUrl.searchParams;
-        // Get field selector from query params
         const fieldSelector = getFieldSelector(searchParams);
-        // Build advanced query with filter support
+        const lang = searchParams.get("lang") || "en";
         const { mongoQuery, regularQuery } = buildAdvancedQuery(searchParams);
 
         const {
@@ -21,18 +20,40 @@ export async function GET(request) {
             input_data,
         } = regularQuery;
 
-        let que = { isActive: true, ...mongoQuery };
+        // Filter by lang: match exact lang OR fall back to English docs that have no translation
+        let que = {
+            isActive: true,
+            $or: [{ lang }, { lang: { $exists: false } }],
+            ...mongoQuery,
+        };
+
+        // If requesting a non-English lang, prefer translated docs but exclude
+        // English-only docs that already have a translation in the requested lang
+        if (lang !== "en") {
+            const translatedRootIds = await corporate_responsibilitySchema
+                .find({ lang, isActive: true })
+                .distinct("rootId");
+            que = {
+                isActive: true,
+                $or: [
+                    { lang },
+                    { $and: [{ $or: [{ lang: "en" }, { lang: { $exists: false } }] }, { _id: { $nin: translatedRootIds } }] },
+                ],
+                ...mongoQuery,
+            };
+        }
 
         if (input_data) {
             const searchCondition = {
                 $or: [
-                    {
-                        "name": { $regex: input_data, $options: "i" },
-                    }
+                {
+                   "name": { $regex: input_data, $options: "i" },
+                },
+                {
+                   "year": { $regex: input_data, $options: "i" },
+                }
                 ]
             };
-
-            // Merge with existing query
             if (que.$and) {
                 que.$and.push(searchCondition);
             } else {
@@ -45,7 +66,7 @@ export async function GET(request) {
         const data = await corporate_responsibilitySchema.find({ ...que }).select(fieldSelector)
             .skip((page - 1) * limit)
             .limit(limit)
-            .sort({ date: -1 }); // Populate table reference fields
+            .sort({ sort: 1 });
 
         return NextResponse.json({
             success: true,

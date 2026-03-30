@@ -17,7 +17,7 @@ export async function GET(request) {
         const limit = parseInt(searchParams.get("limit")) || 50;
         const search = searchParams.get("search") || "";
 
-        const query = { isActive: true, $or: [{ lang }, { lang: { $exists: false } }], ...mongoQuery };
+        const query = {  $or: [{ lang }, { lang: { $exists: false } }], ...mongoQuery };
         if (search) query.$or = [{ name: { $regex: search, $options: "i" } }, { displayName: { $regex: search, $options: "i" } }];
 
         const totalCount = await common_pageSchema.countDocuments(query);

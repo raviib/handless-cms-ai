@@ -21,6 +21,9 @@ export async function GET(request) {
         $or: [
         {
           "name": { $regex: input_data, $options: "i" },
+        },
+        {
+          "year": { $regex: input_data, $options: "i" },
         }
         ]
       };

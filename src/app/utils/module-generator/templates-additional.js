@@ -345,7 +345,7 @@ export async function GET(request) {
         const limit = parseInt(searchParams.get('limit')) || 50;
         const search = searchParams.get('search') || '';
 
-        const query = { isActive: true, ...mongoQuery };
+        const query = {  ...mongoQuery };
 
         if (search) {
             query.$or = [
@@ -509,12 +509,31 @@ export async function GET(request) {
     try {
         await dbConnect();
         const searchParams = request.nextUrl.searchParams;
+        const lang = searchParams.get("lang") || "en";
         const fieldSelector = getFieldSelector(searchParams);
-        let data = await ${modelName}.findOne().select(fieldSelector)${populateChain}${leanChain};
-        if (!data) {
-            data = {};
-        }${dynamicZoneCode}
 
+        // Fetch the base English document
+        let data = await ${modelName}
+            .findOne({ $or: [{ lang: "en" }, { lang: { $exists: false } }] })
+            .select(fieldSelector)${populateChain}${leanChain};
+
+        if (!data) {
+            return NextResponse.json({ success: true, message: "Fetched Successfully", data: {} }, { status: 200 });
+        }
+
+        // If a non-English locale is requested, try to find the translation
+        if (lang !== "en") {
+            const rootId = data.rootId ?? data._id;
+            const translation = await ${modelName}
+                .findOne({ rootId, lang })
+                .select(fieldSelector)${populateChain}${leanChain};
+
+            if (translation) {
+                data = translation;
+            }
+            // else fall through and return the English base as fallback
+        }
+${dynamicZoneCode}
         return NextResponse.json({
             success: true,
             message: "Fetched Successfully",
@@ -580,6 +599,7 @@ export async function GET(request) {
         await dbConnect();
         const searchParams = request.nextUrl.searchParams;
         const fieldSelector = getFieldSelector(searchParams);
+        const lang = searchParams.get("lang") || "en";
         const { mongoQuery, regularQuery } = buildAdvancedQuery(searchParams);
 
         const {
@@ -588,7 +608,28 @@ export async function GET(request) {
             input_data,
         } = regularQuery;
 
-        let que = { isActive: true, ...mongoQuery };
+        // Filter by lang: match exact lang OR fall back to English docs that have no translation
+        let que = {
+            isActive: true,
+            $or: [{ lang }, { lang: { $exists: false } }],
+            ...mongoQuery,
+        };
+
+        // If requesting a non-English lang, prefer translated docs but exclude
+        // English-only docs that already have a translation in the requested lang
+        if (lang !== "en") {
+            const translatedRootIds = await ${modelName}
+                .find({ lang, isActive: true })
+                .distinct("rootId");
+            que = {
+                isActive: true,
+                $or: [
+                    { lang },
+                    { $and: [{ $or: [{ lang: "en" }, { lang: { $exists: false } }] }, { _id: { $nin: translatedRootIds } }] },
+                ],
+                ...mongoQuery,
+            };
+        }
 
         if (input_data) {
             const searchCondition = {

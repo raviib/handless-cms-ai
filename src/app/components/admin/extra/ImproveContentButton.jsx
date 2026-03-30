@@ -44,7 +44,7 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
     const [loading, setLoading] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
     const [error, setError] = useState(null);
-    const [prompt, setPrompt] = useState("Regenerate this content");
+    const [prompt, setPrompt] = useState("");
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [originalValue, setOriginalValue] = useState("");
 
@@ -166,7 +166,7 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
             setSuggestions([]);
             setError(null);
         } else {
-            setPrompt("Regenerate this content");
+            setPrompt("");
             fetchSuggestions("");
             if (fieldId && historyRuns === null) fetchHistory();
         }
