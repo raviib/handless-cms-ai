@@ -82,6 +82,15 @@ const pagesConfSchema = new Schema(
             type: Boolean,
             default: false
         },
+        aiContentEnabled: {
+            type: Boolean,
+            default: false
+        },
+        aiPrompt: {
+            type: String,
+            default: "",
+            trim: true
+        },
         isActive: {
             type: Boolean,
             default: true,

@@ -52,6 +52,8 @@ const PagesConfEditSection = ({ swal, params, searchParams: initialSearchParams,
     const [ShowExcel, setShowExcel] = useState(ConfPageData.ShowExcel)
     const [entryTitle, setEntryTitle] = useState(ConfPageData.entry_title || '')
     const [locales, setLocales] = useState(ConfPageData.locales?.length ? ConfPageData.locales : ["en"])
+    const [aiContentEnabled, setAiContentEnabled] = useState(ConfPageData.aiContentEnabled ?? false)
+    const [aiPrompt, setAiPrompt] = useState(ConfPageData.aiPrompt || "")
 
     const [activeTab, setActiveTab] = useState(0)
     const [activeSectionIndex, setActiveSectionIndex] = useState(null)
@@ -224,6 +226,8 @@ const PagesConfEditSection = ({ swal, params, searchParams: initialSearchParams,
                 formData.append("entry_title", entryTitle);
             }
             formData.append("locales", JSON.stringify(locales));
+            formData.append("aiContentEnabled", aiContentEnabled);
+            formData.append("aiPrompt", aiPrompt);
             formData.append("sections", JSON.stringify(sections_data));
             formData.append("regenerateModule", updateType === 'files-and-db');
             formData.append("regenerateV1", regenerateV1);
@@ -295,6 +299,10 @@ const PagesConfEditSection = ({ swal, params, searchParams: initialSearchParams,
                             locales={locales}
                             setLocales={setLocales}
                             sections={sections}
+                            aiContentEnabled={aiContentEnabled}
+                            setAiContentEnabled={setAiContentEnabled}
+                            aiPrompt={aiPrompt}
+                            setAiPrompt={setAiPrompt}
                         />
                     </div>
 

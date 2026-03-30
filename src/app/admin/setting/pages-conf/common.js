@@ -32,6 +32,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import HttpIcon from '@mui/icons-material/Http';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ViewListIcon from '@mui/icons-material/ViewList';
@@ -70,6 +71,8 @@ export const PageConfigration = (props) => {
     entryTitle, setEntryTitle,
     locales = ["en"], setLocales,
     sections = [],
+    aiContentEnabled = false, setAiContentEnabled,
+    aiPrompt = "", setAiPrompt,
     showOnly = "all" // "all", "basic", "settings"
   } = props;
 
@@ -360,6 +363,54 @@ export const PageConfigration = (props) => {
                     </FormControl>
                   </Grid>
                 )}
+
+                {/* ---------------------
+                AI CONFIG
+          ---------------------- */}
+                <Grid item xs={12} md={6}>
+                  <Stack direction="row" alignItems="center" gap={1} mb={1}>
+                    <AutoFixHighIcon sx={{ color: "#7c3aed" }} />
+                    <Typography variant="subtitle1">AI Config</Typography>
+                  </Stack>
+
+                  <Typography variant="caption" color="text.secondary" paragraph>
+                    Configure AI content generation for this module.
+                  </Typography>
+
+                  <FormControlLabel
+                    sx={{ mb: 2 }}
+                    control={
+                      <Switch
+                        checked={aiContentEnabled}
+                        onChange={(e) => setAiContentEnabled && setAiContentEnabled(e.target.checked)}
+                        sx={{
+                          "& .MuiSwitch-switchBase.Mui-checked": { color: "#7c3aed" },
+                          "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": { backgroundColor: "#7c3aed" },
+                        }}
+                      />
+                    }
+                    label="Create Content with AI"
+                  />
+
+                  <TextField
+                    fullWidth
+                    multiline
+                    minRows={4}
+                    size="small"
+                    label="AI Prompt"
+                    placeholder="e.g. You are writing content for a laminate flooring brand. Keep the tone professional and engaging. Focus on quality, durability, and design."
+                    value={aiPrompt}
+                    onChange={(e) => setAiPrompt && setAiPrompt(e.target.value)}
+                    helperText="This prompt is sent to the AI as context when generating or improving content for this module."
+                    disabled={!aiContentEnabled}
+                    sx={{
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#7c3aed",
+                      },
+                      "& label.Mui-focused": { color: "#7c3aed" },
+                    }}
+                  />
+                </Grid>
 
                 {/* ---------------------
                 API OVERRIDES

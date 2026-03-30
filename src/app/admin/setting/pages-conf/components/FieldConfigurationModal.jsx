@@ -6,12 +6,17 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControlLabel,
+    Grid,
     IconButton,
     Stack,
+    Switch,
     Tab,
     Tabs,
+    TextField,
     Typography
 } from '@mui/material';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState, useCallback } from 'react';
@@ -37,6 +42,70 @@ import { FieldDependencyConfig } from './FieldDependencyConfig';
  * @param {component} AdvancedSettingsTab - Component for advanced settings
  * @param {array} currentComponentPath - Current component path for nested fields
  */
+/**
+ * AiConfigTab — per-field AI configuration
+ * Stored directly on the field definition object.
+ */
+const AiConfigTab = ({ fieldConfig, onChange }) => (
+    <Grid container spacing={3}>
+        <Grid item xs={12}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    mb: 1,
+                    p: 1.5,
+                    borderRadius: 1.5,
+                    background: 'linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%)',
+                    border: '1px solid #ddd6fe',
+                }}
+            >
+                <AutoFixHighIcon sx={{ color: '#7c3aed', fontSize: 20 }} />
+                <Typography variant="subtitle2" sx={{ color: '#5b21b6', fontWeight: 600 }}>
+                    AI Content Assist
+                </Typography>
+            </Box>
+
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 2 }}>
+                When enabled, the AI wand icon appears on this field so editors can generate or improve content inline.
+                The helper prompt gives the AI extra context specific to this field.
+            </Typography>
+
+            <FormControlLabel
+                sx={{ mb: 3 }}
+                control={
+                    <Switch
+                        checked={!!fieldConfig.aiEnabled}
+                        onChange={(e) => onChange('aiEnabled', e.target.checked)}
+                        sx={{
+                            '& .MuiSwitch-switchBase.Mui-checked': { color: '#7c3aed' },
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#7c3aed' },
+                        }}
+                    />
+                }
+                label="Enable AI for this field"
+            />
+
+            <TextField
+                fullWidth
+                multiline
+                minRows={4}
+                label="AI Helper Prompt"
+                placeholder='e.g. "Write a short, punchy product tagline. Max 10 words. Focus on quality and durability."'
+                value={fieldConfig.aiPrompt || ''}
+                onChange={(e) => onChange('aiPrompt', e.target.value)}
+                disabled={!fieldConfig.aiEnabled}
+                helperText="Optional. Injected as extra context when AI generates content for this specific field."
+                sx={{
+                    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#7c3aed' },
+                    '& label.Mui-focused': { color: '#7c3aed' },
+                }}
+            />
+        </Grid>
+    </Grid>
+);
+
 export const FieldConfigurationModal = ({
     open,
     onClose,
@@ -104,7 +173,10 @@ export const FieldConfigurationModal = ({
                     // Dependency settings
                     dependency_field: '',
                     dependency_field_target: '',
-                    dependency_action: 'show'
+                    dependency_action: 'show',
+                    // AI config
+                    aiEnabled: false,
+                    aiPrompt: '',
                 };
                 setFieldConfig(defaultConfig);
             }
@@ -537,6 +609,7 @@ export const FieldConfigurationModal = ({
                     <Tab label="BASIC SETTINGS" value="basic" />
                     <Tab label="ADVANCED SETTINGS" value="advanced" />
                     <Tab label="DEPENDENCIES" value="dependencies" />
+                    <Tab label="AI CONFIG" value="ai" />
                 </Tabs>
 
                 {/* Content */}
@@ -572,6 +645,13 @@ export const FieldConfigurationModal = ({
                             onChange={handleFieldChange}
                             existingFields={existingFields}
                             currentComponentPath={currentComponentPath}
+                        />
+                    )}
+
+                    {activeTab === 'ai' && (
+                        <AiConfigTab
+                            fieldConfig={fieldConfig}
+                            onChange={handleFieldChange}
                         />
                     )}
                 </DialogContent>

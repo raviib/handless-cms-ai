@@ -5,9 +5,9 @@ import { transformPageConfOutout } from '@/app/utils/usefullFunction/usedFunctio
 const page = async ({ params, searchParams }) => {
     const awaitedParams = await params;
     const { slug } = awaitedParams;
-    const { name = "not found", showSEO = false, sort = -1, pageName = "", category = "", showInHeader, sections: Page_Fields = [], under = "", detailPage = false, get_url = "", post_url = "", put_url = "", isDateFilters = false, searchInputPlaceholder = '', ShowExcel = false, entry_title = '', locales = ["en"] } = await getPageConfFieldsUndoMode(slug);
-   
-   const sectionDefultData = await transformPageConfOutout({ Data: Page_Fields })
+    const { name = "not found", showSEO = false, sort = -1, pageName = "", category = "", showInHeader, sections: Page_Fields = [], under = "", detailPage = false, get_url = "", post_url = "", put_url = "", isDateFilters = false, searchInputPlaceholder = '', ShowExcel = false, entry_title = '', locales = ["en"], aiContentEnabled = false, aiPrompt = "" } = await getPageConfFieldsUndoMode(slug);
+
+    const sectionDefultData = await transformPageConfOutout({ Data: Page_Fields })
     const obj = {
         name,
         sort,
@@ -24,7 +24,9 @@ const page = async ({ params, searchParams }) => {
         searchInputPlaceholder,
         ShowExcel,
         entry_title,
-        locales
+        locales,
+        aiContentEnabled,
+        aiPrompt,
     }
     return (
         <PagesConfEditSection params={awaitedParams} searchParams={searchParams} ConfPageData={obj} sectionData={sectionDefultData} />

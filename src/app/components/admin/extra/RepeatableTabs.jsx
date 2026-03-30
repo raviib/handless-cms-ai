@@ -275,12 +275,13 @@ const SingleComponent = ({
                                     </label>
                                     <FieldPurpose Purpose={subField?.FieldPurpose} />
                                     {Lable_Component}
-                                    {["text", "rich-text-blocks", "rich-text-markdown"].includes(subField.type) && (
+                                    {["text", "rich-text-blocks", "rich-text-markdown"].includes(subField.type) && (subField.aiEnabled || false) && (
                                         <ImproveContentButton
                                             value={componentData[subFieldKey]}
                                             fieldType={subField.type}
                                             locale={locale}
                                             fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldKey, subFieldKey].filter(Boolean).join(".")}
+                                            moduleAiPrompt={subField.aiPrompt || ""}
                                             onApply={(newValue) => {
                                                 if (subField.type === "rich-text-markdown") {
                                                     handleFieldChange(newValue, subFieldKey, "text-editor");
@@ -719,12 +720,13 @@ const RepeatableComponent = ({
                                                         </label>
                                                         <FieldPurpose Purpose={subField?.FieldPurpose} />
                                                         {Lable_Component}
-                                                        {["text", "rich-text-blocks", "rich-text-markdown"].includes(subField.type) && (
+                                                        {["text", "rich-text-blocks", "rich-text-markdown"].includes(subField.type) && (subField.aiEnabled || false) && (
                                                             <ImproveContentButton
                                                                 value={item[subFieldKey]}
                                                                 fieldType={subField.type}
                                                                 locale={locale}
                                                                 fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldKey, index, subFieldKey].filter(v => v !== "" && v !== null && v !== undefined).join(".")}
+                                                                moduleAiPrompt={subField.aiPrompt || ""}
                                                                 onApply={(newValue) => {
                                                                     if (subField.type === "rich-text-markdown") {
                                                                         handleFieldChange(newValue, subFieldKey, "text-editor", index);

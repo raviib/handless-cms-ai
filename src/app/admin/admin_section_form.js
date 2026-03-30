@@ -145,12 +145,13 @@ const Page_client_section = ({
 
                                 <FieldPurpose Purpose={field?.FieldPurpose} />
                                 {Lable_Component}
-                                {IMPROVABLE_TYPES.includes(field.type) && (
+                                {IMPROVABLE_TYPES.includes(field.type) && (field.aiEnabled || false) && (
                                     <ImproveContentButton
                                         value={formData[fieldName]}
                                         fieldType={field.type}
                                         locale={locale}
                                         fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldName].filter(Boolean).join(".")}
+                                        moduleAiPrompt={field.aiPrompt || ""}
                                         onApply={(newValue) => {
                                             if (field.type === "rich-text-markdown") {
                                                 onChangeFormDataHandler(newValue, fieldName, "rich-text-markdown");

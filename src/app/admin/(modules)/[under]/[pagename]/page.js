@@ -40,7 +40,7 @@ const Common_defult_page_conf = async ({ params, searchParams }) => {
     }
     const rawPageConf = await getPageConfFields(pagename);
     // Serialize to strip Mongoose ObjectIds and other non-plain values
-    const { name = "not found", pageName = "", under = '', category = "", sections: Page_Fields = [], put_url = "", get_url = "", _id: ModalID = "", locales = ["en"], detailPage, ...restData } = JSON.parse(JSON.stringify(rawPageConf));
+    const { name = "not found", pageName = "", under = '', category = "", sections: Page_Fields = [], put_url = "", get_url = "", _id: ModalID = "", locales = ["en"], detailPage, aiContentEnabled = false, aiPrompt = "", ...restData } = JSON.parse(JSON.stringify(rawPageConf));
     let { DEFAULT_OBJECT, objectField } = await converIntoDefultFieldForForm({ Page_Fields });
     let { data = {} } = await getRequest(`${get_url}`);
     const plainData = data ? JSON.parse(JSON.stringify(data)) : {};
@@ -75,7 +75,7 @@ const Common_defult_page_conf = async ({ params, searchParams }) => {
                 updatedAt={plainData?.updatedAt}
                 detailPage={detailPage}
                 getUrl={get_url}
-                formProps={{ DEFAULT_OBJECT, Page_Fields, objectField, putUrl, postURL: "", isEdit: true, redirectUrl, moduleSlug: pageName }}
+                formProps={{ DEFAULT_OBJECT, Page_Fields, objectField, putUrl, postURL: "", isEdit: true, redirectUrl, moduleSlug: pageName, aiContentEnabled, aiPrompt }}
                 FormComponent={Page_client}
             />
         </>

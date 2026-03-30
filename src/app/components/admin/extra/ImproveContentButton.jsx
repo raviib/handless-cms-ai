@@ -38,7 +38,7 @@ function cacheKey(text, fieldType, locale, prompt) {
  *  - fieldId      : string  — dot-path id e.g. "about-us-page.visionMission.title"
  *  - onApply      : (newValue: string) => void
  */
-const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldId = "", onApply }) => {
+const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldId = "", moduleAiPrompt = "", onApply }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [tab, setTab] = useState(0); // 0 = Suggestions, 1 = History
     const [loading, setLoading] = useState(false);
@@ -76,7 +76,7 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
             const token = await generateApiAccessToken();
             const { data } = await axiosInstance.post(
                 "/content/improve",
-                { text: value, fieldType, locale, prompt: customPrompt, fieldId },
+                { text: value, fieldType, locale, prompt: customPrompt, fieldId, moduleAiPrompt },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
@@ -110,6 +110,7 @@ const ImproveContentButton = ({ value, fieldType = "text", locale = "en", fieldI
                     locale,
                     prompt: "",                // no extra instruction needed
                     fieldId,
+                    moduleAiPrompt,
                     generateFromScratch: true, // hint for the API
                 },
                 { headers: { Authorization: `Bearer ${token}` } }

@@ -25,7 +25,7 @@ function cleanSuggestions(text) {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { text, fieldType = "text", locale = "en", prompt = "", fieldId = "", generateFromScratch = false } = body;
+        const { text, fieldType = "text", locale = "en", prompt = "", fieldId = "", generateFromScratch = false, moduleAiPrompt = "" } = body;
 
         if (!text || typeof text !== "string" || !text.trim()) {
             return NextResponse.json(
@@ -58,10 +58,15 @@ export async function POST(request) {
             ? `USER INSTRUCTION: "${prompt.trim()}" — apply this to all 3 variations.`
             : "";
 
+        const fieldContextInstruction = moduleAiPrompt?.trim()
+            ? `FIELD CONTEXT: ${moduleAiPrompt.trim()}`
+            : "";
+
         const systemPrompt = generateFromScratch
             ? `You are a professional CMS content writer. The user wants to generate new content from scratch based on their description.
 
 ${localeInstruction}
+${fieldContextInstruction}
 ${isHtml ? "Return HTML-formatted content." : "Return plain text content."}
 
 Rules:
@@ -72,6 +77,7 @@ Rules:
 
 ${formatInstruction}
 ${localeInstruction}
+${fieldContextInstruction}
 ${promptInstruction}
 
 Rules:
