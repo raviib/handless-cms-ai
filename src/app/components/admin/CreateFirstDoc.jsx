@@ -4,7 +4,7 @@ import { Table_Create_Buttton } from "@/app/components/admin/extra/buttton.js";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import { Box, Stack, Typography } from "@mui/material";
 import Link from "next/link";
-const CreateFirstDoc = ({ pageName = '', linkUrl = '', showButton = false }) => {
+const CreateFirstDoc = ({ pageName = '', linkUrl = '', showButton = false, onButtonClick }) => {
   return (
     <Box
       sx={{
@@ -45,15 +45,16 @@ const CreateFirstDoc = ({ pageName = '', linkUrl = '', showButton = false }) => 
           >
             Get started by creating your first {pageName} post.
           </Typography>
-          {/* Button as Link */}
-          <Link
-            href={linkUrl}
-            aria-label="Add New"
-          >
-            <Table_Create_Buttton
-              name={`Add ${pageName}`}
-            />
-          </Link>
+          {/* Button as Link or button */}
+          {onButtonClick ? (
+            <div onClick={onButtonClick} style={{ cursor: "pointer" }} role="button" aria-label="Add New">
+              <Table_Create_Buttton name={`Add ${pageName}`} />
+            </div>
+          ) : (
+            <Link href={linkUrl} aria-label="Add New">
+              <Table_Create_Buttton name={`Add ${pageName}`} />
+            </Link>
+          )}
         </>}
       </Stack>
     </Box>

@@ -201,14 +201,14 @@ Return ONLY this exact JSON structure with all fields filled:
         }
 
         const seo = {
-            title: (parsed.title || DEFAULT_SEO.title).slice(0, 60),
-            metaTitle: (parsed.metaTitle || parsed.title || DEFAULT_SEO.metaTitle).slice(0, 60),
-            metaDescription: (parsed.metaDescription || DEFAULT_SEO.metaDescription).slice(0, 160),
-            keywords: Array.isArray(parsed.keywords) ? parsed.keywords.slice(0, 10) : [],
+            title: (parsed.title || DEFAULT_SEO.title),
+            metaTitle: (parsed.metaTitle || parsed.title || DEFAULT_SEO.metaTitle),
+            metaDescription: (parsed.metaDescription || DEFAULT_SEO.metaDescription),
+            keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
             canonicalUrl: parsed.canonicalUrl || "",
             openGraph: {
-                ogTitle: (parsed.openGraph?.ogTitle || "").slice(0, 60),
-                ogDescription: (parsed.openGraph?.ogDescription || "").slice(0, 200),
+                ogTitle: (parsed.openGraph?.ogTitle || ""),
+                ogDescription: (parsed.openGraph?.ogDescription || ""),
                 ogImage: parsed.openGraph?.ogImage || "",
             },
         };

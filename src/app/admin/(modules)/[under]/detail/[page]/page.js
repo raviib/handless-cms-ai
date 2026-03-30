@@ -46,7 +46,9 @@ const Details_page_Table = async ({ params }) => {
         sections: Page_Fields,
         ShowExcel,
         isDateFilters,
-        searchInputPlaceholder
+        searchInputPlaceholder,
+        aiContentEnabled = false,
+        aiPrompt = "",
     } = await getPageConfFields(page);
 
     const updatedParams = {
@@ -113,6 +115,9 @@ const Details_page_Table = async ({ params }) => {
                 searchInputPlaceholder={searchInputPlaceholder ? searchInputPlaceholder : "search by name"}
                 DropDownFilters={DropDownFilters}
                 default_filters={default_filters}
+                aiContentEnabled={aiContentEnabled}
+                aiPrompt={aiPrompt}
+                sections={JSON.parse(JSON.stringify(Page_Fields ?? []))}
             />
         </>
     )

@@ -45,6 +45,13 @@ const Common_defult_page_conf = async ({ params, searchParams }) => {
     let { data = {} } = duplicate ? await getRequest(`${get_url}/${duplicate}`) : {};
     const plainData = data ? JSON.parse(JSON.stringify(data)) : {};
     let { DEFAULT_OBJECT, objectField } = await converIntoDefultFieldForForm({ Page_Fields });
+
+    // Merge AI-prefilled data if present
+    const { ai_prefill = null } = awaitedSearchParams;
+    let aiPrefillData = {};
+    if (ai_prefill) {
+        try { aiPrefillData = JSON.parse(decodeURIComponent(ai_prefill)); } catch { /* ignore */ }
+    }
     const breadcrumb_ = [
         {
             Name: under,
@@ -61,7 +68,8 @@ const Common_defult_page_conf = async ({ params, searchParams }) => {
     ]
     DEFAULT_OBJECT = {
         ...DEFAULT_OBJECT,
-        ...plainData
+        ...plainData,
+        ...aiPrefillData,
     }
     const redirectUrl = `/admin/${under}/detail/${page}`
     return (

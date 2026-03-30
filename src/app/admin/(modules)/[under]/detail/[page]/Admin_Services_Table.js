@@ -4,6 +4,7 @@ import { useGetApi, usePutApi, useDeleteApi } from '@/app/lib/apicallHooks';
 import { withSwal } from "react-sweetalert2";
 import Link from 'next/link';
 import { Button } from '@mui/material';
+import AiAgentModal from '@/app/components/admin/AiAgentModal';
 
 // Components
 import AdminFilters from '@/app/components/admin/AdminFilters';
@@ -38,6 +39,9 @@ const Admin_Detail_Page_Table = ({
     ShowExcel,
     isDateFilters,
     searchInputPlaceholder,
+    aiContentEnabled = false,
+    aiPrompt = "",
+    sections = [],
     swal
 }) => {
     // ==================== ZUSTAND STORE ====================
@@ -60,6 +64,7 @@ const Admin_Detail_Page_Table = ({
     const [reorderedRows, setReorderedRows] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [showBulkActions, setShowBulkActions] = useState(false);
+    const [showAiModal, setShowAiModal] = useState(false);
 
     // ==================== API HOOKS ====================
     const { data: sectionDeatilsData, doFetch, isLoading } = useGetApi();
@@ -385,12 +390,32 @@ const Admin_Detail_Page_Table = ({
                 <div className='d-flex'>
                     <h3 className='table-heading'>{pageName}</h3>
                     {Access_Permissions.create && (
-                        <Link
-                            href={`/admin/${params.folder}/detail/${params.page}/create`}
-                            aria-label="Add New"
-                        >
-                            <Table_Create_Buttton />
-                        </Link>
+                        aiContentEnabled ? (
+                            <>
+                                <div
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => setShowAiModal(true)}
+                                    role="button"
+                                    aria-label="Add New"
+                                >
+                                    <Table_Create_Buttton />
+                                </div>
+                                <AiAgentModal
+                                    open={showAiModal}
+                                    onClose={() => setShowAiModal(false)}
+                                    createLink={`/admin/${params.folder}/detail/${params.page}/create`}
+                                    sections={sections}
+                                    moduleAiPrompt={aiPrompt}
+                                />
+                            </>
+                        ) : (
+                            <Link
+                                href={`/admin/${params.folder}/detail/${params.page}/create`}
+                                aria-label="Add New"
+                            >
+                                <Table_Create_Buttton />
+                            </Link>
+                        )
                     )}
                 </div>
 
@@ -399,9 +424,10 @@ const Admin_Detail_Page_Table = ({
                     <TableSkeleton />
                 ) : sectionDeatils.length === 0 ? (
                     <CreateFirstDoc
-                        linkUrl={`/admin/${params.folder}/detail/${params.page}/create`}
+                        linkUrl={aiContentEnabled ? undefined : `/admin/${params.folder}/detail/${params.page}/create`}
                         pageName={pageName}
                         showButton={Access_Permissions.create}
+                        onButtonClick={aiContentEnabled ? () => setShowAiModal(true) : undefined}
                     />
                 ) : (
                     <>
