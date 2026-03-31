@@ -507,7 +507,7 @@ export const DynamicZoneRenderer = ({
                                                         </label>
                                                         <FieldPurpose Purpose={subField?.FieldPurpose} />
                                                         {Lable_Component}
-                                                        {["text", "rich-text-blocks", "rich-text-markdown"].includes(subField.type) && (subField.aiEnabled || false) && (
+                                                        {["text", "rich-text-blocks", "rich-text-markdown"].includes(subField.type)  && (
                                                             <ImproveContentButton
                                                                 value={item[subFieldKey]}
                                                                 fieldType={subField.type}
