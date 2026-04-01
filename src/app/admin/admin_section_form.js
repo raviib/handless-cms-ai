@@ -3,6 +3,7 @@ import { AdminCommonHeading } from "@/app/components/admin/common.jsx";
 import FieldPurpose from "@/app/components/admin/extra/FieldPurpose.jsx";
 import ImproveContentButton from "@/app/components/admin/extra/ImproveContentButton.jsx";
 import AiImageSuggestButton from "@/app/components/admin/extra/AiImageSuggestButton.jsx";
+import AiMultiImageSuggestButton from "@/app/components/admin/extra/AiMultiImageSuggestButton.jsx";
 import { NestedComponentRenderer } from "@/app/components/admin/extra/RepeatableTabs";
 import { DynamicZoneRenderer } from "@/app/components/admin/extra/DynamicZoneRenderer";
 import { returnFormFields } from "@/app/utils/db/create_fields_fun";
@@ -180,6 +181,21 @@ const Page_client_section = ({
                                         contextText={extractContextText(formData)}
                                         onApply={(imagePath) => {
                                             onChangeFormDataHandler({ target: { name: fieldName, value: imagePath } });
+                                        }}
+                                    />
+                                )}
+                                {field.type === "media" && field.isMulti && (
+                                    <AiMultiImageSuggestButton
+                                        fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldName].filter(Boolean).join(".")}
+                                        contextText={extractContextText(formData)}
+                                        onApply={(imagePaths) => {
+                                            // Append generated images to existing array
+                                            const existing = Array.isArray(formData[fieldName]) ? formData[fieldName] : [];
+                                            onChangeFormDataHandler(
+                                                [...existing, ...imagePaths],
+                                                fieldName,
+                                                "component"
+                                            );
                                         }}
                                     />
                                 )}

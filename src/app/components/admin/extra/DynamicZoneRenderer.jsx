@@ -1,6 +1,8 @@
 "use client";
 import FieldPurpose from "@/app/components/admin/extra/FieldPurpose";
 import ImproveContentButton from "@/app/components/admin/extra/ImproveContentButton";
+import AiImageSuggestButton from "@/app/components/admin/extra/AiImageSuggestButton";
+import AiMultiImageSuggestButton from "@/app/components/admin/extra/AiMultiImageSuggestButton";
 import { returnFormFields } from "@/app/utils/db/create_fields_fun";
 import { evaluateFieldDependency } from "@/app/admin/setting/pages-conf/utils/fieldDependencyUtils";
 import AddIcon from "@mui/icons-material/Add";
@@ -520,6 +522,23 @@ export const DynamicZoneRenderer = ({
                                                                     } else {
                                                                         handleFieldChange({ target: { name: subFieldKey, value: newValue } }, subFieldKey, null, index);
                                                                     }
+                                                                }}
+                                                            />
+                                                        )}
+                                                        {subField.type === "media" && !subField.isMulti && (
+                                                            <AiImageSuggestButton
+                                                                fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldKey, index, subFieldKey].filter(v => v !== "" && v !== null && v !== undefined).join(".")}
+                                                                contextText={Object.values(item).filter(v => typeof v === "string" && v.trim()).slice(0, 3).join(" ").slice(0, 400)}
+                                                                onApply={(imagePath) => handleFieldChange({ target: { name: subFieldKey, value: imagePath } }, subFieldKey, null, index)}
+                                                            />
+                                                        )}
+                                                        {subField.type === "media" && subField.isMulti && (
+                                                            <AiMultiImageSuggestButton
+                                                                fieldId={[recordId, locale !== "en" ? locale : "", moduleSlug, fieldKey, index, subFieldKey].filter(v => v !== "" && v !== null && v !== undefined).join(".")}
+                                                                contextText={Object.values(item).filter(v => typeof v === "string" && v.trim()).slice(0, 3).join(" ").slice(0, 400)}
+                                                                onApply={(imagePaths) => {
+                                                                    const existing = Array.isArray(item[subFieldKey]) ? item[subFieldKey] : [];
+                                                                    handleFieldChange([...existing, ...imagePaths], subFieldKey, "file", index);
                                                                 }}
                                                             />
                                                         )}
